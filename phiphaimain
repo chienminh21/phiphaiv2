@@ -120,7 +120,7 @@ local Slider = MainTab:CreateSlider({
 
 local Input = MainTab:CreateInput({
    Name = "Walkspeed",
-   PlaceholderText = "1-500",
+   PlaceholderText = "1-550",
    RemoveTextAfterFocusLost = true,
    Callback = function(Text)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Text)
