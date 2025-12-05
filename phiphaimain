@@ -37,7 +37,7 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
- local PlayerTab = Window:CreateTab("Player block fruit", 4483362458) -- Title, Image
+ local PlayerTab = Window:CreateTab("Player 1", 4483362458) -- Title, Image
 
  local Slider = PlayerTab:CreateSlider({
     Name = "WalkSpeed",
@@ -124,5 +124,51 @@ local Input = MainTab:CreateInput({
    RemoveTextAfterFocusLost = true,
    Callback = function(Text)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Text)
+   end,
+})
+
+local ScriptTab = Window:CreateTab("Script", nil) -- Title, Image
+
+local Button = ScriptTab:CreateButton({
+   Name = "teleport",
+   Callback = function()
+mouse = game.Players.LocalPlayer:GetMouse()
+tool = Instance.new("Tool")
+tool.RequiresHandle = false
+tool.Name = "Tp tool"
+tool.Activated:connect(function()
+local pos = mouse.Hit+Vector3.new(0,2.5,0)
+pos = CFrame.new(pos.X,pos.Y,pos.Z)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+end)
+tool.Parent = game.Players.LocalPlayer.Backpack
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "dex",
+   Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/peyton2465/Dex/master/out.lua"))()
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua'))()
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "flyguiv3",
+   Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "RemoteSpy",
+   Callback = function()
+loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/latest/download/RemoteSpy.lua"))()
    end,
 })
