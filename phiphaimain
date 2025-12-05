@@ -298,3 +298,59 @@ local Button = ScriptTab:CreateButton({
 loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/latest/download/RemoteSpy.lua"))()
    end,
 })
+
+local EspTab = Window:CreateTab("Esptab", nil) -- Title, Image
+
+local Button = EspTab:CreateButton({
+   Name = "highlightplayer",
+   Callback = function()
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CreditGui"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(0, 200, 0, 50)
+label.Position = UDim2.new(0, 10, 0, 10)
+label.BackgroundTransparency = 0.5
+label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.Font = Enum.Font.SourceSansBold
+label.TextScaled = true
+label.Text = "made by obi"
+label.Parent = screenGui
+
+-- Highlight function
+local function highlightPlayer(player)
+	if player == LocalPlayer then return end
+
+	player.CharacterAdded:Connect(function(character)
+		character:WaitForChild("HumanoidRootPart")
+		local highlight = Instance.new("Highlight")
+		highlight.FillColor = Color3.fromRGB(0, 255, 0)
+		highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+		highlight.Adornee = character
+		highlight.Parent = character
+	end)
+
+	if player.Character then
+		local highlight = Instance.new("Highlight")
+		highlight.FillColor = Color3.fromRGB(0, 255, 0)
+		highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+		highlight.Adornee = player.Character
+		highlight.Parent = player.Character
+	end
+end
+
+for _, player in pairs(Players:GetPlayers()) do
+	highlightPlayer(player)
+end
+
+Players.PlayerAdded:Connect(highlightPlayer)
+   end,
+})
