@@ -37,9 +37,9 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
- local PlayerTab = Window:CreateTab("Player 1", 4483362458) -- Title, Image
+ local UniversalTab = Window:CreateTab("Universal", 4483362458) -- Title, Image
 
- local Slider = PlayerTab:CreateSlider({
+ local Slider = UniversalTab:CreateSlider({
     Name = "WalkSpeed",
     Range = {1, 100},
     Increment = 1,
@@ -51,7 +51,7 @@ local Window = Rayfield:CreateWindow({
     end,
  })
 
- local Slider = PlayerTab:CreateSlider({
+ local Slider = UniversalTab:CreateSlider({
     Name = "Dash length",
     Range = {10, 1000},
     Increment = 1,
@@ -63,21 +63,21 @@ local Window = Rayfield:CreateWindow({
     end,
  })
 
- local Slider = PlayerTab:CreateSlider({
-    Name = "Jump Height",
-    Range = {10, 500},
+ local Slider = UniversalTab:CreateSlider({
+    Name = "unlockmaxzoom",
+    Range = {10, 300},
     Increment = 1,
     Suffix = "Height",
     CurrentValue = 10,
     Flag = "Slider3", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
-     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+     game.Players.LocalPlayer.Character.Humanoid.cameraMaxZoomDistance = Value
     end,
  })
 
 
-local MainTab = Window:CreateTab("Universal", nil) -- Title, Image
-local MainSection = MainTab:CreateSection("Universal")
+local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
+local MainSection = MainTab:CreateSection("Universal1")
 
 Rayfield:Notify({
    Title = "You executed the script",
@@ -155,7 +155,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/peyton2465/Dex/master
 local Button = ScriptTab:CreateButton({
    Name = "Infinite Yield",
    Callback = function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
    end,
 })
 
