@@ -65,7 +65,7 @@ local Window = Rayfield:CreateWindow({
 
  local Slider = UniversalTab:CreateSlider({
     Name = "unlockmaxzoom",
-    Range = {10, 300},
+    Range = {10, 360},
     Increment = 1,
     Suffix = "Height",
     CurrentValue = 10,
