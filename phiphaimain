@@ -253,13 +253,13 @@ local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Universal1")
 
 Rayfield:Notify({
-   Title = "You executed the script",
+   Title = "ty use script",
    Content = "Very cool gui",
    Duration = 5,
    Image = 13047715178,
    Actions = { -- Notification Buttons
       Ignore = {
-         Name = "Okay!",
+         Name = "sigmahacker!",
          Callback = function()
          print("The user tapped Okay!")
       end
@@ -367,7 +367,7 @@ label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 label.TextColor3 = Color3.fromRGB(255, 255, 255)
 label.Font = Enum.Font.SourceSansBold
 label.TextScaled = false
-label.Text = "made by obi"
+label.Text = ""
 label.Parent = screenGui
 
 -- Highlight function
