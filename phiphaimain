@@ -253,15 +253,15 @@ local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Universal1")
 
 Rayfield:Notify({
-   Title = "ty use script",
+   Title = "You executed the script",
    Content = "Very cool gui",
    Duration = 5,
    Image = 13047715178,
    Actions = { -- Notification Buttons
       Ignore = {
-         Name = "sigmahacker!",
+         Name = "working",
          Callback = function()
-         print("The user tapped Okay!")
+         print("discord.gg/SYX99GChEE")
       end
    },
 },
@@ -300,52 +300,6 @@ local Input = MainTab:CreateInput({
    end,
 })
 
-local ScriptTab = Window:CreateTab("Script", nil) -- Title, Image
-
-local Button = ScriptTab:CreateButton({
-   Name = "teleport",
-   Callback = function()
-mouse = game.Players.LocalPlayer:GetMouse()
-tool = Instance.new("Tool")
-tool.RequiresHandle = false
-tool.Name = "Tp tool"
-tool.Activated:connect(function()
-local pos = mouse.Hit+Vector3.new(0,2.5,0)
-pos = CFrame.new(pos.X,pos.Y,pos.Z)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-end)
-tool.Parent = game.Players.LocalPlayer.Backpack
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "dex",
-   Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/peyton2465/Dex/master/out.lua"))()
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "Infinite Yield",
-   Callback = function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "flyguiv3",
-   Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "RemoteSpy",
-   Callback = function()
-loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/latest/download/RemoteSpy.lua"))()
-   end,
-})
-
 local EspTab = Window:CreateTab("Esptab", nil) -- Title, Image
 
 local Button = EspTab:CreateButton({
@@ -366,8 +320,8 @@ label.BackgroundTransparency = 0.5
 label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 label.TextColor3 = Color3.fromRGB(255, 255, 255)
 label.Font = Enum.Font.SourceSansBold
-label.TextScaled = false
-label.Text = ""
+label.TextScaled = true
+label.Text = "made by obi"
 label.Parent = screenGui
 
 -- Highlight function
@@ -402,6 +356,55 @@ Players.PlayerAdded:Connect(highlightPlayer)
    end,
 })
 
+local ScriptTab = Window:CreateTab("Script", nil) -- Title, Image
+
+local Button = ScriptTab:CreateButton({
+   Name = "teleport",
+   Callback = function()
+mouse = game.Players.LocalPlayer:GetMouse()
+tool = Instance.new("Tool")
+tool.RequiresHandle = false
+tool.Name = "Tp tool"
+tool.Activated:connect(function()
+local pos = mouse.Hit+Vector3.new(0,2.5,0)
+pos = CFrame.new(pos.X,pos.Y,pos.Z)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+end)
+tool.Parent = game.Players.LocalPlayer.Backpack
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "autojump",
+   Callback = function()
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+loadstring(game:HttpGet("https://raw.githubusercontent.com/lyraEz/lol/refs/heads/main/loaders/AJ.lua"))()
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "Infinite Yield",
+   Callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "flyguiv3",
+   Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+   end,
+})
+
+local Button = ScriptTab:CreateButton({
+   Name = "RemoteSpy",
+   Callback = function()
+loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/latest/download/RemoteSpy.lua"))()
+   end,
+})
+
 local MyTab = Window:CreateTab("MyTab", nil) -- Title, Image
 
 local Button = MyTab:CreateButton({
@@ -410,4 +413,3 @@ local Button = MyTab:CreateButton({
    -- The function that takes place when the button is pressed
    end,
 })
-
