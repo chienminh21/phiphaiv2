@@ -247,8 +247,14 @@ if _G.infinJumpStarted == nil then
 end
    end,
 })
-    
-    
+
+local Button = UniversalTab:CreateButton({
+   Name = "camlock",
+   Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HomeMadeScripts/Camlock-aimlock/main/obf_Wxr6QgzF76G1y2Ch77KN4Zt5Nz0A6GIl61gitv3mRR2t3V103al5d0g26s4KY04r.lua.txt"))()
+   end,
+})
+
 local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Universal1")
 
@@ -297,13 +303,6 @@ local Input = MainTab:CreateInput({
    RemoveTextAfterFocusLost = true,
    Callback = function(Text)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Text)
-   end,
-})
-
-local Button = MainTab:CreateButton({
-   Name = "camlock",
-   Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/HomeMadeScripts/Camlock-aimlock/main/obf_Wxr6QgzF76G1y2Ch77KN4Zt5Nz0A6GIl61gitv3mRR2t3V103al5d0g26s4KY04r.lua.txt"))()
    end,
 })
 
