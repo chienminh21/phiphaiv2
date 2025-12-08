@@ -570,10 +570,10 @@ loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/
    end,
 })
 
-local MyTab = Window:CreateTab("MyTab", nil) -- Title, Image
+local MyTab = Window:CreateTab("boyandgirltower", nil) -- Title, Image
 
 local Button = MyTab:CreateButton({
-   Name = "discord.gg/SYX99GChEE",
+   Name = "get all coin in map",
    Callback = function()
    -- The function that takes place when the button is pressed
       local coinFolder = workspace["Coin System"].Coins
@@ -590,3 +590,21 @@ for _, coin in ipairs(coinFolder:GetChildren()) do
 end
    end,
 })
+
+local Button = MyTab:CreateButton({
+   Name = "Teleport Finish",
+   Callback = function()
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+
+local target = workspace:GetChildren()[38].Model:FindFirstChild("Lobby")
+
+if target and target:IsA("BasePart") then
+    hrp.CFrame = target.CFrame + Vector3.new(0, 3, 0)
+else
+    warn("Không tìm thấy Lobby")
+end
+   end,
+})
+
