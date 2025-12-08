@@ -521,6 +521,43 @@ Players.PlayerRemoving:Connect(untrackPlayer)
    end,
 })
 
+local Button = EspTab:CreateButton({
+   Name = "highlight2",
+   Callback = function()
+local Players = game:GetService("Players")
+
+local function highlightCharacter(char)
+    if not char then return end
+
+    if char:FindFirstChild("Highlight") then
+        char.Highlight:Destroy()
+    end
+
+    local h = Instance.new("Highlight")
+    h.FillColor = Color3.fromRGB(255, 255, 0) -- màu vàng
+    h.OutlineColor = Color3.fromRGB(255, 0, 0) -- viền đỏ
+    h.FillTransparency = 0.5
+    h.OutlineTransparency = 0
+    h.Parent = char
+end
+
+for _, plr in pairs(Players:GetPlayers()) do
+    if plr.Character then
+        highlightCharacter(plr.Character)
+    end
+    plr.CharacterAdded:Connect(function(char)
+        highlightCharacter(char)
+    end)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    plr.CharacterAdded:Connect(function(char)
+        highlightCharacter(char)
+    end)
+end)
+   end,
+})
+
 local ScriptTab = Window:CreateTab("Script", nil) -- Title, Image
 
 local Button = ScriptTab:CreateButton({
