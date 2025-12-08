@@ -576,5 +576,17 @@ local Button = MyTab:CreateButton({
    Name = "disocrd.gg/SYX99GChEE",
    Callback = function()
    -- The function that takes place when the button is pressed
+      local coinFolder = workspace["Coin System"].Coins
+
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+
+for _, coin in ipairs(coinFolder:GetChildren()) do
+    if coin:IsA("BasePart") then
+        hrp.CFrame = coin.CFrame
+        task.wait(0.2)
+    end
+end
    end,
 })
