@@ -346,6 +346,20 @@ Players.PlayerAdded:Connect(highlightPlayer)
    end,
 })
 
+local Button = EspTab:CreateButton({
+   Name = "box Esp",
+   Callback = function()
+loadstring(game:HttpGet("https://obj.wearedevs.net/2/scripts/WRD%20ESP.lua"))()
+   end,
+})
+
+local Button = EspTab:CreateButton({
+   Name = "",
+   Callback = function()
+
+   end,
+})
+
 local ScriptTab = Window:CreateTab("Script", nil) -- Title, Image
 
 local Button = ScriptTab:CreateButton({
