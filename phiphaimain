@@ -313,16 +313,6 @@ screenGui.Name = "CreditGui"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
-local label = Instance.new("TextLabel")
-label.Size = UDim2.new(0, 200, 0, 50)
-label.Position = UDim2.new(0, 10, 0, 10)
-label.BackgroundTransparency = 0.5
-label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-label.TextColor3 = Color3.fromRGB(255, 255, 255)
-label.Font = Enum.Font.SourceSansBold
-label.TextScaled = true
-label.Text = "made by obi"
-label.Parent = screenGui
 
 -- Highlight function
 local function highlightPlayer(player)
