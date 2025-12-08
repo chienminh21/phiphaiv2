@@ -573,7 +573,7 @@ loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/
 local MyTab = Window:CreateTab("MyTab", nil) -- Title, Image
 
 local Button = MyTab:CreateButton({
-   Name = "disocrd.gg/SYX99GChEE",
+   Name = "discord.gg/SYX99GChEE",
    Callback = function()
    -- The function that takes place when the button is pressed
       local coinFolder = workspace["Coin System"].Coins
