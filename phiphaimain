@@ -605,3 +605,56 @@ if folder6 and folder6:FindFirstChild("Giver") then
 end
    end,
 })
+
+local Button = SlapTab:CreateButton({
+   Name = "get all slap in slap tower 2",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local player = game.Players.LocalPlayer
+
+local function tpTo(part)
+    local char = player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+    end
+end
+
+task.wait(0.1)
+
+-- 1. Slap.Giver
+local giver1 = workspace:WaitForChild("Slap"):WaitForChild("Giver")
+tpTo(giver1)
+
+task.wait(0.1)
+
+-- 2. workspace:GetChildren()[15].Giver
+local folder15 = workspace:GetChildren()[15]
+if folder15 and folder15:FindFirstChild("Giver") then
+    tpTo(folder15.Giver)
+end
+
+task.wait(0.1)
+
+-- 3. workspace:GetChildren()[6].Giver
+local folder6 = workspace:GetChildren()[6]
+if folder6 and folder6:FindFirstChild("Giver") then
+    tpTo(folder6.Giver)
+end
+
+task.wait(0.1)
+
+-- 4. workspace:GetChildren()[22].Giver
+local folder22 = workspace:GetChildren()[22]
+if folder22 and folder22:FindFirstChild("Giver") then
+    tpTo(folder22.Giver)
+end
+
+task.wait(0.1)
+
+-- 5. workspace:GetChildren()[13].Giver
+local folder13 = workspace:GetChildren()[13]
+if folder13 and folder13:FindFirstChild("Giver") then
+    tpTo(folder13.Giver)
+end
+   end,
+})
