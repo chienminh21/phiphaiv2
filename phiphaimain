@@ -571,7 +571,7 @@ end
 local SlapTab = Window:CreateTab("slap tower 👋", nil) -- Title, Image
 
 local Button = SlapTab:CreateButton({
-   Name = "Get all slap",
+   Name = "Get all slap in slap tower",
    Callback = function()
  local player = game.Players.LocalPlayer
 
