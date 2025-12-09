@@ -708,6 +708,67 @@ local Button = SlapTab:CreateButton({
    Name = "get all slap in slap tower 4",
    Callback = function()
    -- The function that takes place when the button is pressed
+local player = game.Players.LocalPlayer
 
+local function tpTo(part)
+    local char = player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") and part and part:IsA("BasePart") then
+        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+    end
+end
+
+task.wait(0.1)
+
+-- 1. workspace:GetChildren()[8].Giver  (Give)
+local f8 = workspace:GetChildren()[8]
+if f8 and f8:FindFirstChild("Giver") then
+    tpTo(f8.Giver)
+end
+
+task.wait(0.1)
+
+-- 2. workspace:GetChildren()[24].Giver  (Give)
+local f24 = workspace:GetChildren()[24]
+if f24 and f24:FindFirstChild("Giver") then
+    tpTo(f24.Giver)
+end
+
+task.wait(0.1)
+
+-- 3. workspace:GetChildren()[20].Giver  (Giver)
+local f20 = workspace:GetChildren()[20]
+if f20 and f20:FindFirstChild("Giver") then
+    tpTo(f20.Giver)
+end
+
+task.wait(0.1)
+
+-- 4. workspace:GetChildren()[8].Giver  (Giver – trùng)
+local f8b = workspace:GetChildren()[8]
+if f8b and f8b:FindFirstChild("Giver") then
+    tpTo(f8b.Giver)
+end
+
+task.wait(0.1)
+
+-- 5. workspace.Slap.Giver  (Give)
+local slapGiver = workspace:WaitForChild("Slap"):WaitForChild("Giver")
+tpTo(slapGiver)
+
+task.wait(0.1)
+
+-- 6. workspace:GetChildren()[19].Giver  (Giver)  <-- MỚI ĐƯA VÀO
+local f19 = workspace:GetChildren()[19]
+if f19 and f19:FindFirstChild("Giver") then
+    tpTo(f19.Giver)
+end
+
+task.wait(0.1)
+
+-- 7. workspace.Model:GetChildren()[7] (object)
+local m7 = workspace:WaitForChild("Model"):GetChildren()[7]
+if m7 and m7:IsA("BasePart") then
+    tpTo(m7)
+end
    end,
 })
