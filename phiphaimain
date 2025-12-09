@@ -481,6 +481,75 @@ end)
    end,
 })
 
+local Button = EspTab:CreateButton({
+   Name = "Tracerplayer",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Player Tracer (Blue)
+local player = game.Players.LocalPlayer
+local cam = workspace.CurrentCamera
+local rs = game:GetService("RunService")
+
+local function newLine()
+    local line = Drawing.new("Line")
+    line.Thickness = 2
+    line.Color = Color3.fromRGB(0, 170, 255) -- Xanh dương
+    line.Transparency = 1
+    return line
+end
+
+local tracers = {}
+
+-- Tạo tracer cho mỗi player
+local function addTracer(plr)
+    if plr ~= player then
+        local line = newLine()
+        tracers[plr] = line
+    end
+end
+
+local function removeTracer(plr)
+    if tracers[plr] then
+        tracers[plr]:Remove()
+        tracers[plr] = nil
+    end
+end
+
+for _, plr in ipairs(game.Players:GetPlayers()) do
+    addTracer(plr)
+end
+
+game.Players.PlayerAdded:Connect(addTracer)
+game.Players.PlayerRemoving:Connect(removeTracer)
+
+rs.RenderStepped:Connect(function()
+    local char = player.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    local rootPos, onScreen = cam:WorldToViewportPoint(hrp.Position)
+
+    for plr, line in pairs(tracers) do
+        local c = plr.Character
+        local hrp2 = c and c:FindFirstChild("HumanoidRootPart")
+
+        if hrp2 then
+            local pos, visible = cam:WorldToViewportPoint(hrp2.Position)
+            if visible then
+                line.Visible = true
+                line.From = Vector2.new(rootPos.X, rootPos.Y)
+                line.To = Vector2.new(pos.X, pos.Y)
+            else
+                line.Visible = false
+            end
+        else
+            line.Visible = false
+        end
+    end
+end)
+   end,
+})
+
 local ScriptTab = Window:CreateTab("Script", nil) -- Title, Image
 
 local Button = ScriptTab:CreateButton({
