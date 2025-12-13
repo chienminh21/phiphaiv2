@@ -196,7 +196,7 @@ local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Universal1")
 
 Rayfield:Notify({
-   Title = "You executed the script",
+   Title = "discord.gg/SYX99GChEE",
    Content = "Very cool gui",
    Duration = 5,
    Image = 13047715178,
