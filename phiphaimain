@@ -1088,7 +1088,7 @@ end)
 
 local myTab = Window:CreateTab("server", nil) -- Title, Image
 
-local Button = MyTab:CreateButton({
+local Button = myTab:CreateButton({
    Name = "discord.gg/SYX99GChEE",
    Callback = function()
    -- The function that takes place when the button is pressed
