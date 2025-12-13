@@ -946,3 +946,31 @@ if f30 and f30:FindFirstChild("Giver") then
 end
    end,
 })
+
+local GameTab = Window:CreateTab("scary shawarma kiosk", nil) -- Title, Image
+
+local Button = GameTab:CreateButton({
+   Name = "tp doors",
+   Callback = function()
+ local player = game.Players.LocalPlayer
+
+local function tpTo(part)
+    local char = player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") and part then
+        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+    end
+end
+
+task.wait(0.1)
+
+local base = workspace:WaitForChild("Door"):WaitForChild("Base")
+tpTo(base)
+   end,
+})
+
+local Button = GameTab:CreateButton({
+   Name = "esp",
+   Callback = function()
+    
+   end,
+})
