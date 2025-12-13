@@ -178,6 +178,20 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/HomeMadeScripts/Camlo
    end,
 })
 
+local Button = UniversalTab:CreateButton({
+   Name = "fast interact",
+   Callback = function()
+   local ProximityPromptService = game:GetService("ProximityPromptService")
+local instantInteractEnabled = true
+
+ProximityPromptService.PromptButtonHoldBegan:Connect(function(prompt, player)
+    if instantInteractEnabled then
+        fireproximityprompt(prompt)
+    end
+end)
+   end,
+})
+
 local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Universal1")
 
