@@ -1085,3 +1085,12 @@ RunService.Heartbeat:Connect(function()
 end)
    end,
 })
+
+local ServerTab = Window:CreateTab("server", nil) -- Title, Image
+
+local Button = ServerTab:CreateButton({
+   Name = "discord.gg/SYX99GChEE",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
