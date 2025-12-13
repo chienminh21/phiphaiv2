@@ -973,6 +973,8 @@ local Button = GameTab:CreateButton({
    Callback = function()
     local RunService = game:GetService("RunService")
 
+local RunService = game:GetService("RunService")
+
 local GREEN = Color3.fromRGB(0,255,0)
 local RED   = Color3.fromRGB(255,0,0)
 local BLUE  = Color3.fromRGB(0,170,255)
@@ -998,9 +1000,9 @@ RunService.Heartbeat:Connect(function()
     local hum = workspace:FindFirstChild("Hum")
     if not hum then return end
 
-    -- 🟢 Man1 -> Man24 (trừ Man7)
+    -- 🟢 Man1 -> Man24 (trừ Man7, Man17)
     for i = 1, 24 do
-        if i ~= 7 then
+        if i ~= 7 and i ~= 17 then
             local manFolder = hum:FindFirstChild("Man"..i)
             if manFolder then
                 local man1 = manFolder:FindFirstChild("Man1")
@@ -1011,10 +1013,19 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
-    -- 🔴 Man7 (đỏ)
+    -- 🔴 Man7
     local man7 = hum:FindFirstChild("Man7")
     if man7 then
         local man1 = man7:FindFirstChild("Man1")
+        if man1 then
+            applyESP(man1, RED)
+        end
+    end
+
+    -- 🔴 Man17
+    local man17 = hum:FindFirstChild("Man17")
+    if man17 then
+        local man1 = man17:FindFirstChild("Man1")
         if man1 then
             applyESP(man1, RED)
         end
@@ -1054,10 +1065,19 @@ RunService.Heartbeat:Connect(function()
         applyESP(fali, RED)
     end
 
-    -- 🔵 Internte.Man1 (xanh dương)
+    -- 🔵 Internte.Man1
     local internte = hum:FindFirstChild("Internte")
     if internte then
         local man1 = internte:FindFirstChild("Man1")
+        if man1 then
+            applyESP(man1, BLUE)
+        end
+    end
+
+    -- 🔵 ManAN1.Man1
+    local manAN1 = hum:FindFirstChild("ManAN1")
+    if manAN1 then
+        local man1 = manAN1:FindFirstChild("Man1")
         if man1 then
             applyESP(man1, BLUE)
         end
