@@ -975,8 +975,9 @@ local Button = GameTab:CreateButton({
 
 local GREEN = Color3.fromRGB(0,255,0)
 local RED   = Color3.fromRGB(255,0,0)
+local BLUE  = Color3.fromRGB(0,170,255)
 
--- Gắn Highlight ESP (không box)
+-- Gắn Highlight ESP
 local function applyESP(target, color)
     if not target or target:FindFirstChild("ESP_APPLIED") then return end
 
@@ -997,14 +998,25 @@ RunService.Heartbeat:Connect(function()
     local hum = workspace:FindFirstChild("Hum")
     if not hum then return end
 
-    -- 🟢 Man1 -> Man24
+    -- 🟢 Man1 -> Man24 (trừ Man7)
     for i = 1, 24 do
-        local manFolder = hum:FindFirstChild("Man"..i)
-        if manFolder then
-            local man1 = manFolder:FindFirstChild("Man1")
-            if man1 then
-                applyESP(man1, GREEN)
+        if i ~= 7 then
+            local manFolder = hum:FindFirstChild("Man"..i)
+            if manFolder then
+                local man1 = manFolder:FindFirstChild("Man1")
+                if man1 then
+                    applyESP(man1, GREEN)
+                end
             end
+        end
+    end
+
+    -- 🔴 Man7 (đỏ)
+    local man7 = hum:FindFirstChild("Man7")
+    if man7 then
+        local man1 = man7:FindFirstChild("Man1")
+        if man1 then
+            applyESP(man1, RED)
         end
     end
 
@@ -1040,6 +1052,15 @@ RunService.Heartbeat:Connect(function()
     local fali = workspace:FindFirstChild("Fail")
     if fali then
         applyESP(fali, RED)
+    end
+
+    -- 🔵 Internte.Man1 (xanh dương)
+    local internte = hum:FindFirstChild("Internte")
+    if internte then
+        local man1 = internte:FindFirstChild("Man1")
+        if man1 then
+            applyESP(man1, BLUE)
+        end
     end
 end)
    end,
