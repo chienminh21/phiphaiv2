@@ -971,6 +971,76 @@ tpTo(base)
 local Button = GameTab:CreateButton({
    Name = "esp",
    Callback = function()
-    
+    local RunService = game:GetService("RunService")
+
+local GREEN = Color3.fromRGB(0,255,0)
+local RED   = Color3.fromRGB(255,0,0)
+
+-- Gắn Highlight ESP (không box)
+local function applyESP(target, color)
+    if not target or target:FindFirstChild("ESP_APPLIED") then return end
+
+    local tag = Instance.new("BoolValue")
+    tag.Name = "ESP_APPLIED"
+    tag.Parent = target
+
+    local hl = Instance.new("Highlight")
+    hl.FillColor = color
+    hl.OutlineColor = color
+    hl.FillTransparency = 0.4
+    hl.OutlineTransparency = 0
+    hl.Enabled = true
+    hl.Parent = target
+end
+
+RunService.Heartbeat:Connect(function()
+    local hum = workspace:FindFirstChild("Hum")
+    if not hum then return end
+
+    -- 🟢 Man1 -> Man24
+    for i = 1, 24 do
+        local manFolder = hum:FindFirstChild("Man"..i)
+        if manFolder then
+            local man1 = manFolder:FindFirstChild("Man1")
+            if man1 then
+                applyESP(man1, GREEN)
+            end
+        end
+    end
+
+    -- 🟢 Man25santa
+    local santa = hum:FindFirstChild("Man25santa")
+    if santa then
+        local man1 = santa:FindFirstChild("Man1")
+        if man1 then
+            applyESP(man1, GREEN)
+        end
+    end
+
+    -- 🔴 Anom1 -> Anom13
+    for i = 1, 13 do
+        local anomFolder = hum:FindFirstChild("Anom"..i)
+        if anomFolder then
+            local man1 = anomFolder:FindFirstChild("Man1")
+            if man1 then
+                applyESP(man1, RED)
+            end
+        end
+    end
+
+    -- 🔴 Scream1 -> Scream13
+    for i = 1, 13 do
+        local scream = hum:FindFirstChild("Scream"..i)
+        if scream then
+            applyESP(scream, RED)
+        end
+    end
+
+    -- 🔴 Fali
+    local fali = workspace:FindFirstChild("Fail")
+    if fali then
+        applyESP(fali, RED)
+    end
+end)
    end,
 })
