@@ -973,13 +973,10 @@ local Button = GameTab:CreateButton({
    Callback = function()
     local RunService = game:GetService("RunService")
 
-local RunService = game:GetService("RunService")
-
 local GREEN = Color3.fromRGB(0,255,0)
 local RED   = Color3.fromRGB(255,0,0)
 local BLUE  = Color3.fromRGB(0,170,255)
 
--- Gắn Highlight ESP
 local function applyESP(target, color)
     if not target or target:FindFirstChild("ESP_APPLIED") then return end
 
@@ -992,7 +989,6 @@ local function applyESP(target, color)
     hl.OutlineColor = color
     hl.FillTransparency = 0.4
     hl.OutlineTransparency = 0
-    hl.Enabled = true
     hl.Parent = target
 end
 
@@ -1000,88 +996,80 @@ RunService.Heartbeat:Connect(function()
     local hum = workspace:FindFirstChild("Hum")
     if not hum then return end
 
-    -- 🟢 Man1 -> Man24 (trừ Man7, Man17)
+    -- 🟢 Man1 -> Man24 (trừ RED list)
     for i = 1, 24 do
-        if i ~= 7 and i ~= 17 then
-            local manFolder = hum:FindFirstChild("Man"..i)
-            if manFolder then
-                local man1 = manFolder:FindFirstChild("Man1")
-                if man1 then
-                    applyESP(man1, GREEN)
-                end
+        if i ~= 5 and i ~= 7 and i ~= 17 and i ~= 20 then
+            local man = hum:FindFirstChild("Man"..i)
+            if man then
+                local m1 = man:FindFirstChild("Man1")
+                if m1 then applyESP(m1, GREEN) end
             end
-        end
-    end
-
-    -- 🔴 Man7
-    local man7 = hum:FindFirstChild("Man7")
-    if man7 then
-        local man1 = man7:FindFirstChild("Man1")
-        if man1 then
-            applyESP(man1, RED)
-        end
-    end
-
-    -- 🔴 Man17
-    local man17 = hum:FindFirstChild("Man17")
-    if man17 then
-        local man1 = man17:FindFirstChild("Man1")
-        if man1 then
-            applyESP(man1, RED)
         end
     end
 
     -- 🟢 Man25santa
     local santa = hum:FindFirstChild("Man25santa")
     if santa then
-        local man1 = santa:FindFirstChild("Man1")
-        if man1 then
-            applyESP(man1, GREEN)
+        local m1 = santa:FindFirstChild("Man1")
+        if m1 then applyESP(m1, GREEN) end
+    end
+
+    -- 🔵 ManAN1
+    local manAN1 = hum:FindFirstChild("ManAN1")
+    if manAN1 then
+        local m1 = manAN1:FindFirstChild("Man1")
+        if m1 then applyESP(m1, BLUE) end
+    end
+
+    -- 🔴 RED Man folders
+    local redMan = {"Man5","Man7","Man17","Man20"}
+    for _,name in ipairs(redMan) do
+        local m = hum:FindFirstChild(name)
+        if m then
+            local m1 = m:FindFirstChild("Man1")
+            if m1 then applyESP(m1, RED) end
         end
     end
 
-    -- 🔴 Anom1 -> Anom13
+    -- 🔴 Internte
+    local internte = hum:FindFirstChild("Internte")
+    if internte then
+        local m1 = internte:FindFirstChild("Man1")
+        if m1 then applyESP(m1, RED) end
+    end
+
+    -- 🔴 Mike
+    local mike = hum:FindFirstChild("Mike")
+    if mike then
+        local m1 = mike:FindFirstChild("Man1")
+        if m1 then applyESP(m1, RED) end
+    end
+
+    -- 🔴 Anom1 -> Anom13 (Man1)
     for i = 1, 13 do
-        local anomFolder = hum:FindFirstChild("Anom"..i)
-        if anomFolder then
-            local man1 = anomFolder:FindFirstChild("Man1")
-            if man1 then
-                applyESP(man1, RED)
-            end
+        local anom = hum:FindFirstChild("Anom"..i)
+        if anom then
+            local m1 = anom:FindFirstChild("Man1")
+            if m1 then applyESP(m1, RED) end
         end
+    end
+
+    -- 🔴 Anom1.Man2
+    local anom1 = hum:FindFirstChild("Anom1")
+    if anom1 then
+        local m2 = anom1:FindFirstChild("Man2")
+        if m2 then applyESP(m2, RED) end
     end
 
     -- 🔴 Scream1 -> Scream13
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
-        if scream then
-            applyESP(scream, RED)
-        end
+        if scream then applyESP(scream, RED) end
     end
 
     -- 🔴 Fali
     local fali = workspace:FindFirstChild("Fail")
-    if fali then
-        applyESP(fali, RED)
-    end
-
-    -- 🔵 Internte.Man1
-    local internte = hum:FindFirstChild("Internte")
-    if internte then
-        local man1 = internte:FindFirstChild("Man1")
-        if man1 then
-            applyESP(man1, BLUE)
-        end
-    end
-
-    -- 🔵 ManAN1.Man1
-    local manAN1 = hum:FindFirstChild("ManAN1")
-    if manAN1 then
-        local man1 = manAN1:FindFirstChild("Man1")
-        if man1 then
-            applyESP(man1, BLUE)
-        end
-    end
+    if fali then applyESP(fali, RED) end
 end)
    end,
 })
