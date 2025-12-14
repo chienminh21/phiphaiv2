@@ -440,7 +440,7 @@ end
 local GameTab = nil
 
 if isSupportedGame then
-    GameTab = Window:CreateTab("GameTab", nil) -- Tạo tab chỉ khi game được hỗ trợ
+    GameTab = Window:CreateTab("Scary Shawarma Kiosk: the ANOMALY [horror]", nil) -- Tạo tab chỉ khi game được hỗ trợ
     GameTab:CreateLabel("SupportedGame")
 
     GameTab:CreateButton({
