@@ -304,7 +304,7 @@ local function clearSkeleton(plr)
 end
 
 EspTab:CreateToggle({
-    Name = "Skeleton ESP",
+    Name = "tracer 1",
     CurrentValue = false,
     Flag = "skeleton",
     Callback = function(Value)
@@ -384,7 +384,7 @@ local function newTracer()
 end
 
 EspTab:CreateToggle({
-    Name = "Tracer Player",
+    Name = "Tracer 2",
     CurrentValue = false,
     Flag = "tracer",
     Callback = function(Value)
