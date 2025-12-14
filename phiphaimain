@@ -654,7 +654,7 @@ end
 local SlapTab = Window:CreateTab("slap tower 👋", nil) -- Title, Image
 
 local Button = SlapTab:CreateButton({
-   Name = "Get all slap",
+   Name = "get all slap in slap tower",
    Callback = function()
  local player = game.Players.LocalPlayer
 
@@ -969,7 +969,7 @@ tpTo(base)
 })
 
 local Button = GameTab:CreateButton({
-   Name = "esp",
+   Name = "esp(beta)",
    Callback = function()
     local RunService = game:GetService("RunService")
 
@@ -1074,11 +1074,40 @@ end)
    end,
 })
 
+local Button = GameTab:CreateButton({
+   Name = "tp to trash(stopbus)",
+   Callback = function()
+ local player = game.Players.LocalPlayer
+
+task.wait(0.1)
+
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+
+local tr = workspace:WaitForChild("Street"):WaitForChild("tr")
+
+if tr:IsA("BasePart") then
+    hrp.CFrame = tr.CFrame + Vector3.new(0, 3, 0)
+
+elseif tr:IsA("Model") then
+    if tr.PrimaryPart then
+        hrp.CFrame = tr.PrimaryPart.CFrame + Vector3.new(0, 3, 0)
+    else
+        local part = tr:FindFirstChildWhichIsA("BasePart", true)
+        if part then
+            hrp.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+        end
+    end
+end
+   end,
+})
+
 local myTab = Window:CreateTab("server", nil) -- Title, Image
 
 local Button = myTab:CreateButton({
    Name = "discord.gg/SYX99GChEE",
    Callback = function()
    -- The function that takes place when the button is pressed
+
    end,
 })
