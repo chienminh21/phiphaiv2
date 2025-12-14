@@ -36,136 +36,141 @@ local Window = Rayfield:CreateWindow({
       Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
-
- local UniversalTab = Window:CreateTab("Universal", 4483362458) -- Title, Image
-
- local Button = UniversalTab:CreateButton({
-   Name = "unlockmaxzoom",
-   Callback = function()
-game.Players.LocalPlayer.Character.Humanoid.cameraMaxZoomDistance = Value
-   end,
-})
-
-local Button = UniversalTab:CreateButton({
-   Name = "fullbright",
-   Callback = function()
-local Light = game:GetService("Lighting")
-
-function dofullbright()
-Light.Ambient = Color3.new(1, 1, 1)
-Light.ColorShift_Bottom = Color3.new(1, 1, 1)
-Light.ColorShift_Top = Color3.new(1, 1, 1)
-end
-
-dofullbright()
-
-Light.LightingChanged:Connect(dofullbright)
-   end,
-})
-
-local Button = UniversalTab:CreateButton({
-   Name = "noclip",
-   Callback = function()
-_G.auto = false
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local ProximityPromptService = game:GetService("ProximityPromptService")
+local UIS = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
+local UniversalTab = Window:CreateTab("Universal", 4483362458)
 
-local function DisableCollision()
-	for _, v in ipairs(character:GetDescendants()) do
-		if v:IsA("BasePart") then
-			v.CanCollide = false
-		end
-	end
+----------------------------------------------------------------
+-- 🔍 UNLOCK MAX ZOOM
+----------------------------------------------------------------
+local oldMaxZoom = player.CameraMaxZoomDistance
+
+UniversalTab:CreateToggle({
+    Name = "Unlock Max Zoom",
+    CurrentValue = false,
+    Flag = "unlockzoom",
+    Callback = function(Value)
+        if Value then
+            oldMaxZoom = player.CameraMaxZoomDistance
+            player.CameraMaxZoomDistance = 999999
+        else
+            player.CameraMaxZoomDistance = oldMaxZoom
+        end
+    end,
+})
+
+----------------------------------------------------------------
+-- 🌞 FULLBRIGHT
+----------------------------------------------------------------
+local FullbrightEnabled = false
+local oldAmbient = Lighting.Ambient
+local oldTop = Lighting.ColorShift_Top
+local oldBottom = Lighting.ColorShift_Bottom
+local fullbrightConn
+
+local function applyFullbright()
+    Lighting.Ambient = Color3.new(1,1,1)
+    Lighting.ColorShift_Top = Color3.new(1,1,1)
+    Lighting.ColorShift_Bottom = Color3.new(1,1,1)
 end
 
-local function StartNoclip()
-	RunService.Stepped:Connect(function()
-		DisableCollision()
-	end)
+UniversalTab:CreateToggle({
+    Name = "Fullbright",
+    CurrentValue = false,
+    Flag = "fullbright",
+    Callback = function(Value)
+        FullbrightEnabled = Value
+        if Value then
+            applyFullbright()
+            fullbrightConn = Lighting.LightingChanged:Connect(function()
+                if FullbrightEnabled then
+                    applyFullbright()
+                end
+            end)
+        else
+            if fullbrightConn then fullbrightConn:Disconnect() end
+            Lighting.Ambient = oldAmbient
+            Lighting.ColorShift_Top = oldTop
+            Lighting.ColorShift_Bottom = oldBottom
+        end
+    end,
+})
+
+----------------------------------------------------------------
+-- 🚪 NOCLIP
+----------------------------------------------------------------
+local noclipConn
+
+local function noclipChar(char)
+    for _,v in ipairs(char:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+        end
+    end
 end
 
-StartNoclip()
-DisableCollision()
+UniversalTab:CreateToggle({
+    Name = "Noclip",
+    CurrentValue = false,
+    Flag = "noclip",
+    Callback = function(Value)
+        if Value then
+            noclipConn = RunService.Stepped:Connect(function()
+                local char = player.Character
+                if char then noclipChar(char) end
+            end)
+        else
+            if noclipConn then noclipConn:Disconnect() end
+        end
+    end,
+})
 
-player.CharacterAdded:Connect(function(char)
-	character = char
-	char:WaitForChild("HumanoidRootPart")
-	task.wait(0.1)
-	StartNoclip()
-	DisableCollision()
+----------------------------------------------------------------
+-- 🦘 INFINITE JUMP
+----------------------------------------------------------------
+local InfJumpEnabled = false
+
+UniversalTab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Flag = "infjump",
+    Callback = function(Value)
+        InfJumpEnabled = Value
+    end,
+})
+
+UIS.JumpRequest:Connect(function()
+    if InfJumpEnabled then
+        local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+        if hum then
+            hum:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
 end)
-   end,
-})
 
-local Button = UniversalTab:CreateButton({
-   Name = "infjump",
-   Callback = function()
-_G.infinjump = not _G.infinjump
+----------------------------------------------------------------
+-- ⚡ FAST INTERACT
+----------------------------------------------------------------
+local FastInteractEnabled = false
 
-if _G.infinJumpStarted == nil then
-	--Ensures this only runs once to save resources
-	_G.infinJumpStarted = true
-	
-	--Notifies readiness
-	game.StarterGui:SetCore("SendNotification", {Title="infjumpworking"; Text="discord.gg/SYX99GChEE!"; Duration=5;})
-
-	--The actual infinite jump
-	local plr = game:GetService('Players').LocalPlayer
-	
-	function doJump()
-		if _G.infinjump then
-			humanoid = game:GetService'Players'.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
-			humanoid:ChangeState('Jumping')
-			wait()
-			humanoid:ChangeState('Seated')
-		end
-	end
-	
-	--PC Support
-	local m = plr:GetMouse()
-	m.KeyDown:connect(function(k)
-		if k:byte() == 32 then
-			doJump()
-		end
-	end)
-	
-	--Mobile support
-	local uis = game:GetService("UserInputService")
-	task.spawn(function()
-		local pg = plr:WaitForChild("PlayerGui")
-		local btn = pg:WaitForChild("TouchGui"):WaitForChild("TouchControlFrame"):WaitForChild("JumpButton", 3)
-		if btn then
-			btn.MouseButton1Down:Connect(doJump)
-		else
-			uis.JumpRequest:Connect(doJump)
-		end
-	end)
-end
-   end,
-})
-
-local Button = UniversalTab:CreateButton({
-   Name = "camlock",
-   Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/HomeMadeScripts/Camlock-aimlock/main/obf_Wxr6QgzF76G1y2Ch77KN4Zt5Nz0A6GIl61gitv3mRR2t3V103al5d0g26s4KY04r.lua.txt"))()
-   end,
-})
-
-local Button = UniversalTab:CreateButton({
-   Name = "fast interact",
-   Callback = function()
-   local ProximityPromptService = game:GetService("ProximityPromptService")
-local instantInteractEnabled = true
-
-ProximityPromptService.PromptButtonHoldBegan:Connect(function(prompt, player)
-    if instantInteractEnabled then
+ProximityPromptService.PromptButtonHoldBegan:Connect(function(prompt)
+    if FastInteractEnabled then
         fireproximityprompt(prompt)
     end
 end)
-   end,
+
+UniversalTab:CreateToggle({
+    Name = "Fast Interact",
+    CurrentValue = false,
+    Flag = "fastinteract",
+    Callback = function(Value)
+        FastInteractEnabled = Value
+    end,
 })
 
 local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
@@ -219,375 +224,431 @@ local Input = MainTab:CreateInput({
    end,
 })
 
-local EspTab = Window:CreateTab("Esptab", nil) -- Title, Image
-
-local Button = EspTab:CreateButton({
-   Name = "highlightplayer",
-   Callback = function()
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "CreditGui"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-
-
--- Highlight function
-local function highlightPlayer(player)
-	if player == LocalPlayer then return end
-
-	player.CharacterAdded:Connect(function(character)
-		character:WaitForChild("HumanoidRootPart")
-		local highlight = Instance.new("Highlight")
-		highlight.FillColor = Color3.fromRGB(0, 255, 0)
-		highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-		highlight.Adornee = character
-		highlight.Parent = character
-	end)
-
-	if player.Character then
-		local highlight = Instance.new("Highlight")
-		highlight.FillColor = Color3.fromRGB(0, 255, 0)
-		highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-		highlight.Adornee = player.Character
-		highlight.Parent = player.Character
-	end
-end
-
-for _, player in pairs(Players:GetPlayers()) do
-	highlightPlayer(player)
-end
-
-Players.PlayerAdded:Connect(highlightPlayer)
-   end,
-})
-
-local Button = EspTab:CreateButton({
-   Name = "box Esp",
-   Callback = function()
-loadstring(game:HttpGet("https://obj.wearedevs.net/2/scripts/WRD%20ESP.lua"))()
-   end,
-})
-
-local Button = EspTab:CreateButton({
-   Name = "Skeleton",
-   Callback = function()
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
 
-local SkeletonSettings = {
-    Color = Color3.new(0, 1, 0),
-    Thickness = 2,
-    Transparency = 1
-}
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "PhiPhai V2",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "join my server to get update",
+   LoadingSubtitle = "by obi",
+   ShowText = "Rayfield", -- for mobile users to unhide rayfield, change if you'd like
+   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "phi phai v2"
+   },
+
+   Discord = {
+      Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "discord.gg/SYX99GChEE", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local ProximityPromptService = game:GetService("ProximityPromptService")
+local UIS = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
-local camera = workspace.CurrentCamera
+local UniversalTab = Window:CreateTab("Universal", 4483362458)
+
+----------------------------------------------------------------
+-- 🔍 UNLOCK MAX ZOOM
+----------------------------------------------------------------
+local oldMaxZoom = player.CameraMaxZoomDistance
+
+UniversalTab:CreateToggle({
+    Name = "Unlock Max Zoom",
+    CurrentValue = false,
+    Flag = "unlockzoom",
+    Callback = function(Value)
+        if Value then
+            oldMaxZoom = player.CameraMaxZoomDistance
+            player.CameraMaxZoomDistance = 999999
+        else
+            player.CameraMaxZoomDistance = oldMaxZoom
+        end
+    end,
+})
+
+----------------------------------------------------------------
+-- 🌞 FULLBRIGHT
+----------------------------------------------------------------
+local FullbrightEnabled = false
+local oldAmbient = Lighting.Ambient
+local oldTop = Lighting.ColorShift_Top
+local oldBottom = Lighting.ColorShift_Bottom
+local fullbrightConn
+
+local function applyFullbright()
+    Lighting.Ambient = Color3.new(1,1,1)
+    Lighting.ColorShift_Top = Color3.new(1,1,1)
+    Lighting.ColorShift_Bottom = Color3.new(1,1,1)
+end
+
+UniversalTab:CreateToggle({
+    Name = "Fullbright",
+    CurrentValue = false,
+    Flag = "fullbright",
+    Callback = function(Value)
+        FullbrightEnabled = Value
+        if Value then
+            applyFullbright()
+            fullbrightConn = Lighting.LightingChanged:Connect(function()
+                if FullbrightEnabled then
+                    applyFullbright()
+                end
+            end)
+        else
+            if fullbrightConn then fullbrightConn:Disconnect() end
+            Lighting.Ambient = oldAmbient
+            Lighting.ColorShift_Top = oldTop
+            Lighting.ColorShift_Bottom = oldBottom
+        end
+    end,
+})
+
+----------------------------------------------------------------
+-- 🚪 NOCLIP
+----------------------------------------------------------------
+local noclipConn
+
+local function noclipChar(char)
+    for _,v in ipairs(char:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+        end
+    end
+end
+
+UniversalTab:CreateToggle({
+    Name = "Noclip",
+    CurrentValue = false,
+    Flag = "noclip",
+    Callback = function(Value)
+        if Value then
+            noclipConn = RunService.Stepped:Connect(function()
+                local char = player.Character
+                if char then noclipChar(char) end
+            end)
+        else
+            if noclipConn then noclipConn:Disconnect() end
+        end
+    end,
+})
+
+----------------------------------------------------------------
+-- 🦘 INFINITE JUMP
+----------------------------------------------------------------
+local InfJumpEnabled = false
+
+UniversalTab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Flag = "infjump",
+    Callback = function(Value)
+        InfJumpEnabled = Value
+    end,
+})
+
+UIS.JumpRequest:Connect(function()
+    if InfJumpEnabled then
+        local hum = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+        if hum then
+            hum:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+
+----------------------------------------------------------------
+-- ⚡ FAST INTERACT
+----------------------------------------------------------------
+local FastInteractEnabled = false
+
+ProximityPromptService.PromptButtonHoldBegan:Connect(function(prompt)
+    if FastInteractEnabled then
+        fireproximityprompt(prompt)
+    end
+end)
+
+UniversalTab:CreateToggle({
+    Name = "Fast Interact",
+    CurrentValue = false,
+    Flag = "fastinteract",
+    Callback = function(Value)
+        FastInteractEnabled = Value
+    end,
+})
+
+local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
+local MainSection = MainTab:CreateSection("Universal1")
+
+Rayfield:Notify({
+   Title = "discord.gg/SYX99GChEE",
+   Content = "Very cool gui",
+   Duration = 5,
+   Image = 13047715178,
+   Actions = { -- Notification Buttons
+      Ignore = {
+         Name = "working",
+         Callback = function()
+         print("discord.gg/SYX99GChEE")
+      end
+   },
+},
+})
+
+local Slider = MainTab:CreateSlider({
+   Name = "WalkSpeed Slider",
+   Range = {1, 500},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "sliderws", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
+   end,
+})
+
+local Slider = MainTab:CreateSlider({
+   Name = "JumpPower Slider",
+   Range = {1, 500},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "sliderjp", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
+   end,
+})
+
+local Input = MainTab:CreateInput({
+   Name = "Walkspeed",
+   PlaceholderText = "1-1000",
+   RemoveTextAfterFocusLost = true,
+   Callback = function(Text)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Text)
+   end,
+})
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+local EspTab = Window:CreateTab("Esptab", nil)
+
+----------------------------------------------------------------
+-- 🟢 HIGHLIGHT PLAYER (GREEN)
+----------------------------------------------------------------
+local HL1_ENABLED = false
+local hl1Connections = {}
+
+local function applyHL1(player)
+    if player == LocalPlayer then return end
+
+    local function onChar(char)
+        if not HL1_ENABLED then return end
+        if char:FindFirstChild("HL1") then return end
+
+        local hl = Instance.new("Highlight")
+        hl.Name = "HL1"
+        hl.FillColor = Color3.fromRGB(0,255,0)
+        hl.OutlineColor = Color3.fromRGB(255,255,255)
+        hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        hl.Parent = char
+    end
+
+    if player.Character then onChar(player.Character) end
+    hl1Connections[player] = player.CharacterAdded:Connect(onChar)
+end
+
+EspTab:CreateToggle({
+    Name = "Highlight 1 (Green)",
+    CurrentValue = false,
+    Flag = "hl1",
+    Callback = function(Value)
+        HL1_ENABLED = Value
+
+        if Value then
+            for _,plr in ipairs(Players:GetPlayers()) do
+                applyHL1(plr)
+            end
+        else
+            for _,plr in ipairs(Players:GetPlayers()) do
+                if plr.Character and plr.Character:FindFirstChild("HL1") then
+                    plr.Character.HL1:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+
+----------------------------------------------------------------
+-- ☠️ SKELETON ESP
+----------------------------------------------------------------
+local SkeletonEnabled = false
 local skeletons = {}
 
-local function createLine()
-    local line = Drawing.new("Line")
-    return line
+local function newLine()
+    local l = Drawing.new("Line")
+    l.Color = Color3.fromRGB(0,255,0)
+    l.Thickness = 2
+    l.Transparency = 1
+    return l
 end
 
-local function removeSkeleton(skeleton)
-    for _, line in pairs(skeleton) do
-        line:Remove()
-    end
-end
-
-local function trackPlayer(plr)
-    local skeleton = {}
-
-    local function updateSkeleton()
-        if not plr.Character or not plr.Character:FindFirstChild("HumanoidRootPart") then
-            for _, line in pairs(skeleton) do
-                line.Visible = false
-            end
-            return
-        end
-
-        local character = plr.Character
-        local humanoid = character:FindFirstChild("Humanoid")
-
-        if humanoid and humanoid.RigType == Enum.HumanoidRigType.R15 then
-            joints = {
-                ["Head"] = character:FindFirstChild("Head"),
-                ["UpperTorso"] = character:FindFirstChild("UpperTorso"),
-                ["LowerTorso"] = character:FindFirstChild("LowerTorso"),
-                ["LeftUpperArm"] = character:FindFirstChild("LeftUpperArm"),
-                ["LeftLowerArm"] = character:FindFirstChild("LeftLowerArm"),
-                ["LeftHand"] = character:FindFirstChild("LeftHand"),
-                ["RightUpperArm"] = character:FindFirstChild("RightUpperArm"),
-                ["RightLowerArm"] = character:FindFirstChild("RightLowerArm"),
-                ["RightHand"] = character:FindFirstChild("RightHand"),
-                ["LeftUpperLeg"] = character:FindFirstChild("LeftUpperLeg"),
-                ["LeftLowerLeg"] = character:FindFirstChild("LeftLowerLeg"),
-                ["RightUpperLeg"] = character:FindFirstChild("RightUpperLeg"),
-                ["RightLowerLeg"] = character:FindFirstChild("RightLowerLeg"),
-            }
-        elseif humanoid and humanoid.RigType == Enum.HumanoidRigType.R6 then
-            joints = {
-                ["Head"] = character:FindFirstChild("Head"),
-                ["Torso"] = character:FindFirstChild("Torso"),
-                ["LeftLeg"] = character:FindFirstChild("Left Leg"),
-                ["RightLeg"] = character:FindFirstChild("Right Leg"),
-                ["LeftArm"] = character:FindFirstChild("Left Arm"),
-                ["RightArm"] = character:FindFirstChild("Right Arm"),
-            }
-        end
-
-        local connections = {}
-
-        if humanoid and humanoid.RigType == Enum.HumanoidRigType.R15 then
-            connections = {
-                { "Head", "UpperTorso" },
-                { "UpperTorso", "LowerTorso" },
-                { "LowerTorso", "LeftUpperLeg" },
-                { "LeftUpperLeg", "LeftLowerLeg" },
-                { "LowerTorso", "RightUpperLeg" },
-                { "RightUpperLeg", "RightLowerLeg" },
-                { "UpperTorso", "LeftUpperArm" },
-                { "LeftUpperArm", "LeftLowerArm" },
-                { "LeftLowerArm", "LeftHand" },
-                { "UpperTorso", "RightUpperArm" },
-                { "RightUpperArm", "RightLowerArm" },
-                { "RightLowerArm", "RightHand" },
-            }
-        elseif humanoid and humanoid.RigType == Enum.HumanoidRigType.R6 then
-            connections = {
-                { "Head", "Torso" },
-                { "Torso", "LeftArm" },
-                { "Torso", "RightArm" },
-                { "Torso", "LeftLeg" },
-                { "Torso", "RightLeg" },
-            }
-        end
-
-        for index, connection in ipairs(connections) do
-            local jointA = joints[connection[1]]
-            local jointB = joints[connection[2]]
-
-            if jointA and jointB then
-                local posA, onScreenA = camera:WorldToViewportPoint(jointA.Position)
-                local posB, onScreenB = camera:WorldToViewportPoint(jointB.Position)
-
-                local line = skeleton[index] or createLine()
-                skeleton[index] = line
-
-                line.Color = SkeletonSettings.Color
-                line.Thickness = SkeletonSettings.Thickness
-                line.Transparency = SkeletonSettings.Transparency
-
-                if onScreenA and onScreenB then
-                    if connection[2] == "LeftArm" or connection[2] == "RightArm" then
-                        local offsetY = 0.5
-                        posB = camera:WorldToViewportPoint(jointB.Position + Vector3.new(0, offsetY, 0))
-                    end
-
-                    line.From = Vector2.new(posA.X, posA.Y)
-                    line.To = Vector2.new(posB.X, posB.Y)
-                    line.Visible = true
-                else
-                    line.Visible = false
-                end
-            elseif skeleton[index] then
-                skeleton[index].Visible = false
-            end
-        end
-    end
-
-    skeletons[plr] = skeleton
-
-    RunService.RenderStepped:Connect(function()
-        if plr and plr.Parent then
-            updateSkeleton()
-        else
-            removeSkeleton(skeleton)
-        end
-    end)
-end
-
-local function untrackPlayer(plr)
+local function clearSkeleton(plr)
     if skeletons[plr] then
-        removeSkeleton(skeletons[plr])
+        for _,l in pairs(skeletons[plr]) do l:Remove() end
         skeletons[plr] = nil
     end
 end
 
-for _, plr in ipairs(Players:GetPlayers()) do
-    if plr ~= player then
-        trackPlayer(plr)
-    end
-end
-
-Players.PlayerAdded:Connect(function(plr)
-    if plr ~= player then
-        trackPlayer(plr)
-    end
-end)
-
-Players.PlayerRemoving:Connect(untrackPlayer)
-   end,
-})
-
-local Button = EspTab:CreateButton({
-   Name = "highlight2",
-   Callback = function()
-local Players = game:GetService("Players")
-
-local function highlightCharacter(char)
-    if not char then return end
-
-    if char:FindFirstChild("Highlight") then
-        char.Highlight:Destroy()
-    end
-
-    local h = Instance.new("Highlight")
-    h.FillColor = Color3.fromRGB(255, 255, 0) -- màu vàng
-    h.OutlineColor = Color3.fromRGB(255, 0, 0) -- viền đỏ
-    h.FillTransparency = 0.5
-    h.OutlineTransparency = 0
-    h.Parent = char
-end
-
-for _, plr in pairs(Players:GetPlayers()) do
-    if plr.Character then
-        highlightCharacter(plr.Character)
-    end
-    plr.CharacterAdded:Connect(function(char)
-        highlightCharacter(char)
-    end)
-end
-
-Players.PlayerAdded:Connect(function(plr)
-    plr.CharacterAdded:Connect(function(char)
-        highlightCharacter(char)
-    end)
-end)
-   end,
-})
-
-local Button = EspTab:CreateButton({
-   Name = "Tracerplayer",
-   Callback = function()
-   -- The function that takes place when the button is pressed
--- Player Tracer (Blue)
-local player = game.Players.LocalPlayer
-local cam = workspace.CurrentCamera
-local rs = game:GetService("RunService")
-
-local function newLine()
-    local line = Drawing.new("Line")
-    line.Thickness = 2
-    line.Color = Color3.fromRGB(0, 170, 255) -- Xanh dương
-    line.Transparency = 1
-    return line
-end
-
-local tracers = {}
-
--- Tạo tracer cho mỗi player
-local function addTracer(plr)
-    if plr ~= player then
-        local line = newLine()
-        tracers[plr] = line
-    end
-end
-
-local function removeTracer(plr)
-    if tracers[plr] then
-        tracers[plr]:Remove()
-        tracers[plr] = nil
-    end
-end
-
-for _, plr in ipairs(game.Players:GetPlayers()) do
-    addTracer(plr)
-end
-
-game.Players.PlayerAdded:Connect(addTracer)
-game.Players.PlayerRemoving:Connect(removeTracer)
-
-rs.RenderStepped:Connect(function()
-    local char = player.Character
-    local hrp = char and char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
-
-    local rootPos, onScreen = cam:WorldToViewportPoint(hrp.Position)
-
-    for plr, line in pairs(tracers) do
-        local c = plr.Character
-        local hrp2 = c and c:FindFirstChild("HumanoidRootPart")
-
-        if hrp2 then
-            local pos, visible = cam:WorldToViewportPoint(hrp2.Position)
-            if visible then
-                line.Visible = true
-                line.From = Vector2.new(rootPos.X, rootPos.Y)
-                line.To = Vector2.new(pos.X, pos.Y)
-            else
-                line.Visible = false
+EspTab:CreateToggle({
+    Name = "Skeleton ESP",
+    CurrentValue = false,
+    Flag = "skeleton",
+    Callback = function(Value)
+        SkeletonEnabled = Value
+        if not Value then
+            for plr in pairs(skeletons) do
+                clearSkeleton(plr)
             end
-        else
-            line.Visible = false
+        end
+    end,
+})
+
+RunService.RenderStepped:Connect(function()
+    if not SkeletonEnabled then return end
+
+    for _,plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character then
+            if not skeletons[plr] then
+                skeletons[plr] = {newLine()}
+            end
+            local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                local pos, vis = Camera:WorldToViewportPoint(hrp.Position)
+                local line = skeletons[plr][1]
+                line.Visible = vis
+                line.From = Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y)
+                line.To = Vector2.new(pos.X, pos.Y)
+            end
         end
     end
 end)
-   end,
+
+----------------------------------------------------------------
+-- 🟡 HIGHLIGHT 2 (YELLOW / RED)
+----------------------------------------------------------------
+local HL2_ENABLED = false
+
+EspTab:CreateToggle({
+    Name = "Highlight 2 (Yellow)",
+    CurrentValue = false,
+    Flag = "hl2",
+    Callback = function(Value)
+        HL2_ENABLED = Value
+
+        for _,plr in ipairs(Players:GetPlayers()) do
+            if plr.Character then
+                if Value then
+                    if not plr.Character:FindFirstChild("HL2") then
+                        local h = Instance.new("Highlight")
+                        h.Name = "HL2"
+                        h.FillColor = Color3.fromRGB(255,255,0)
+                        h.OutlineColor = Color3.fromRGB(255,0,0)
+                        h.Parent = plr.Character
+                    end
+                else
+                    if plr.Character:FindFirstChild("HL2") then
+                        plr.Character.HL2:Destroy()
+                    end
+                end
+            end
+        end
+    end,
 })
 
-local ScriptTab = Window:CreateTab("Script", nil) -- Title, Image
+----------------------------------------------------------------
+-- 🔵 TRACER PLAYER
+----------------------------------------------------------------
+local TracerEnabled = false
+local tracers = {}
 
-local Button = ScriptTab:CreateButton({
-   Name = "teleport",
-   Callback = function()
-mouse = game.Players.LocalPlayer:GetMouse()
-tool = Instance.new("Tool")
-tool.RequiresHandle = false
-tool.Name = "Tp tool"
-tool.Activated:connect(function()
-local pos = mouse.Hit+Vector3.new(0,2.5,0)
-pos = CFrame.new(pos.X,pos.Y,pos.Z)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+local function newTracer()
+    local l = Drawing.new("Line")
+    l.Color = Color3.fromRGB(0,170,255)
+    l.Thickness = 2
+    l.Transparency = 1
+    return l
+end
+
+EspTab:CreateToggle({
+    Name = "Tracer Player",
+    CurrentValue = false,
+    Flag = "tracer",
+    Callback = function(Value)
+        TracerEnabled = Value
+
+        if not Value then
+            for _,l in pairs(tracers) do l:Remove() end
+            tracers = {}
+        end
+    end,
+})
+
+RunService.RenderStepped:Connect(function()
+    if not TracerEnabled then return end
+    local myHRP = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not myHRP then return end
+
+    local from = Camera:WorldToViewportPoint(myHRP.Position)
+
+    for _,plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character then
+            local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                if not tracers[plr] then
+                    tracers[plr] = newTracer()
+                end
+                local to, vis = Camera:WorldToViewportPoint(hrp.Position)
+                tracers[plr].Visible = vis
+                tracers[plr].From = Vector2.new(from.X, from.Y)
+                tracers[plr].To = Vector2.new(to.X, to.Y)
+            end
+        end
+    end
 end)
-tool.Parent = game.Players.LocalPlayer.Backpack
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "autojump",
-   Callback = function()
---[[
-	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
-]]
-loadstring(game:HttpGet("https://raw.githubusercontent.com/lyraEz/lol/refs/heads/main/loaders/AJ.lua"))()
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "Infinite Yield",
-   Callback = function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "flyguiv3",
-   Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-   end,
-})
-
-local Button = ScriptTab:CreateButton({
-   Name = "RemoteSpy",
-   Callback = function()
-loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/latest/download/RemoteSpy.lua"))()
-   end,
-})
 
 local ESP_ENABLED = false
 
@@ -772,3 +833,195 @@ elseif tr:IsA("Model") then
 end
    end,
 })
+
+local EspTab = Window:CreateTab("Esptab", nil)
+
+----------------------------------------------------------------
+-- 🟢 HIGHLIGHT PLAYER (GREEN)
+----------------------------------------------------------------
+local HL1_ENABLED = false
+local hl1Connections = {}
+
+local function applyHL1(player)
+    if player == LocalPlayer then return end
+
+    local function onChar(char)
+        if not HL1_ENABLED then return end
+        if char:FindFirstChild("HL1") then return end
+
+        local hl = Instance.new("Highlight")
+        hl.Name = "HL1"
+        hl.FillColor = Color3.fromRGB(0,255,0)
+        hl.OutlineColor = Color3.fromRGB(255,255,255)
+        hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        hl.Parent = char
+    end
+
+    if player.Character then onChar(player.Character) end
+    hl1Connections[player] = player.CharacterAdded:Connect(onChar)
+end
+
+EspTab:CreateToggle({
+    Name = "Highlight 1 (Green)",
+    CurrentValue = false,
+    Flag = "hl1",
+    Callback = function(Value)
+        HL1_ENABLED = Value
+
+        if Value then
+            for _,plr in ipairs(Players:GetPlayers()) do
+                applyHL1(plr)
+            end
+        else
+            for _,plr in ipairs(Players:GetPlayers()) do
+                if plr.Character and plr.Character:FindFirstChild("HL1") then
+                    plr.Character.HL1:Destroy()
+                end
+            end
+        end
+    end,
+})
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+
+----------------------------------------------------------------
+-- ☠️ SKELETON ESP
+----------------------------------------------------------------
+local SkeletonEnabled = false
+local skeletons = {}
+
+local function newLine()
+    local l = Drawing.new("Line")
+    l.Color = Color3.fromRGB(0,255,0)
+    l.Thickness = 2
+    l.Transparency = 1
+    return l
+end
+
+local function clearSkeleton(plr)
+    if skeletons[plr] then
+        for _,l in pairs(skeletons[plr]) do l:Remove() end
+        skeletons[plr] = nil
+    end
+end
+
+EspTab:CreateToggle({
+    Name = "Skeleton ESP",
+    CurrentValue = false,
+    Flag = "skeleton",
+    Callback = function(Value)
+        SkeletonEnabled = Value
+        if not Value then
+            for plr in pairs(skeletons) do
+                clearSkeleton(plr)
+            end
+        end
+    end,
+})
+
+RunService.RenderStepped:Connect(function()
+    if not SkeletonEnabled then return end
+
+    for _,plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character then
+            if not skeletons[plr] then
+                skeletons[plr] = {newLine()}
+            end
+            local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                local pos, vis = Camera:WorldToViewportPoint(hrp.Position)
+                local line = skeletons[plr][1]
+                line.Visible = vis
+                line.From = Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y)
+                line.To = Vector2.new(pos.X, pos.Y)
+            end
+        end
+    end
+end)
+
+----------------------------------------------------------------
+-- 🟡 HIGHLIGHT 2 (YELLOW / RED)
+----------------------------------------------------------------
+local HL2_ENABLED = false
+
+EspTab:CreateToggle({
+    Name = "Highlight 2 (Yellow)",
+    CurrentValue = false,
+    Flag = "hl2",
+    Callback = function(Value)
+        HL2_ENABLED = Value
+
+        for _,plr in ipairs(Players:GetPlayers()) do
+            if plr.Character then
+                if Value then
+                    if not plr.Character:FindFirstChild("HL2") then
+                        local h = Instance.new("Highlight")
+                        h.Name = "HL2"
+                        h.FillColor = Color3.fromRGB(255,255,0)
+                        h.OutlineColor = Color3.fromRGB(255,0,0)
+                        h.Parent = plr.Character
+                    end
+                else
+                    if plr.Character:FindFirstChild("HL2") then
+                        plr.Character.HL2:Destroy()
+                    end
+                end
+            end
+        end
+    end,
+})
+
+----------------------------------------------------------------
+-- 🔵 TRACER PLAYER
+----------------------------------------------------------------
+local TracerEnabled = false
+local tracers = {}
+
+local function newTracer()
+    local l = Drawing.new("Line")
+    l.Color = Color3.fromRGB(0,170,255)
+    l.Thickness = 2
+    l.Transparency = 1
+    return l
+end
+
+EspTab:CreateToggle({
+    Name = "Tracer Player",
+    CurrentValue = false,
+    Flag = "tracer",
+    Callback = function(Value)
+        TracerEnabled = Value
+
+        if not Value then
+            for _,l in pairs(tracers) do l:Remove() end
+            tracers = {}
+        end
+    end,
+})
+
+RunService.RenderStepped:Connect(function()
+    if not TracerEnabled then return end
+    local myHRP = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not myHRP then return end
+
+    local from = Camera:WorldToViewportPoint(myHRP.Position)
+
+    for _,plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character then
+            local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                if not tracers[plr] then
+                    tracers[plr] = newTracer()
+                end
+                local to, vis = Camera:WorldToViewportPoint(hrp.Position)
+                tracers[plr].Visible = vis
+                tracers[plr].From = Vector2.new(from.X, from.Y)
+                tracers[plr].To = Vector2.new(to.X, to.Y)
+            end
+        end
+    end
+end)
+
+
