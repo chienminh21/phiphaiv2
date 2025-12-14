@@ -421,37 +421,38 @@ RunService.RenderStepped:Connect(function()
 end)
 
 
+-- =========================
+-- 📌 GAME TAB
+-- =========================
 local GameTab = Window:CreateTab("scary shawarma kiosk", nil)
 
+local RunService = game:GetService("RunService")
 local ESP_ENABLED = false
 
-GameTab:CreateToggle({
-    Name = "esp",
-    CurrentValue = false,
-    Flag = "ESP_MAIN",
-    Callback = function(Value)
-        ESP_ENABLED = Value
-
-        -- TẮT → xoá toàn bộ highlight
-        if not Value then
-            for _,v in ipairs(workspace:GetDescendants()) do
-                if v:IsA("Highlight") and v.Name == "HL" then
-                    v:Destroy()
-                end
-                if v:IsA("BoolValue") and v.Name == "ESP_HL" then
-                    v:Destroy()
-                end
-            end
-        end
-    end,
-})
-
-local RunService = game:GetService("RunService")
-
+-- =========================
+-- 🎨 COLORS
+-- =========================
 local GREEN = Color3.fromRGB(0,255,0)
 local RED   = Color3.fromRGB(255,0,0)
 local BLUE  = Color3.fromRGB(0,170,255)
 
+-- =========================
+-- 🧹 CLEAR ESP
+-- =========================
+local function clearESP()
+    for _,v in ipairs(workspace:GetDescendants()) do
+        if v:IsA("Highlight") and v.Name == "HL" then
+            v:Destroy()
+        end
+        if v:IsA("BoolValue") and v.Name == "ESP_HL" then
+            v:Destroy()
+        end
+    end
+end
+
+-- =========================
+-- 🔦 APPLY HIGHLIGHT
+-- =========================
 local function applyHighlight(target, color)
     if not target or target:FindFirstChild("ESP_HL") then return end
 
@@ -469,81 +470,83 @@ local function applyHighlight(target, color)
     hl.Parent = target
 end
 
+-- =========================
+-- 🔘 TOGGLE ESP
+-- =========================
+GameTab:CreateToggle({
+    Name = "ESP",
+    CurrentValue = false,
+    Flag = "ESP_MAIN",
+    Callback = function(Value)
+        ESP_ENABLED = Value
+        if not Value then
+            clearESP()
+        end
+    end,
+})
+
+-- =========================
+-- 🔁 MAIN LOOP (FIX AUTO ON)
+-- =========================
 RunService.Heartbeat:Connect(function()
+    if not ESP_ENABLED then return end   -- ❗ FIX QUAN TRỌNG
+
     local hum = workspace:FindFirstChild("Hum")
     if not hum then return end
 
-    -- 🟢 Man1 -> Man24 (trừ RED list)
+    -- 🟢 Man1 → Man24 (trừ đỏ)
     for i = 1, 24 do
         if i ~= 5 and i ~= 17 and i ~= 20 then
             local man = hum:FindFirstChild("Man"..i)
-            if man then
-                local m1 = man:FindFirstChild("Man1")
-                if m1 then
-                    applyHighlight(m1, GREEN)
-                end
+            if man and man:FindFirstChild("Man1") then
+                applyHighlight(man.Man1, GREEN)
             end
         end
     end
 
-    -- 🟢 Man7 (GREEN)
-    local man7 = hum:FindFirstChild("Man7")
-    if man7 then
-        local m1 = man7:FindFirstChild("Man1")
-        if m1 then
-            applyHighlight(m1, GREEN)
-        end
+    -- 🟢 Man7
+    if hum:FindFirstChild("Man7") and hum.Man7:FindFirstChild("Man1") then
+        applyHighlight(hum.Man7.Man1, GREEN)
     end
 
     -- 🟢 Man25santa
-    local santa = hum:FindFirstChild("Man25santa")
-    if santa then
-        local m1 = santa:FindFirstChild("Man1")
-        if m1 then applyHighlight(m1, GREEN) end
+    if hum:FindFirstChild("Man25santa") and hum.Man25santa:FindFirstChild("Man1") then
+        applyHighlight(hum.Man25santa.Man1, GREEN)
     end
 
     -- 🔵 ManAN1
-    local manAN1 = hum:FindFirstChild("ManAN1")
-    if manAN1 then
-        local m1 = manAN1:FindFirstChild("Man1")
-        if m1 then applyHighlight(m1, BLUE) end
+    if hum:FindFirstChild("ManAN1") and hum.ManAN1:FindFirstChild("Man1") then
+        applyHighlight(hum.ManAN1.Man1, BLUE)
     end
 
-    -- 🔴 RED Man
+    -- 🔴 RED MAN
     for _,name in ipairs({"Man5","Man17","Man20"}) do
-        local m = hum:FindFirstChild(name)
-        if m then
-            local m1 = m:FindFirstChild("Man1")
-            if m1 then applyHighlight(m1, RED) end
+        if hum:FindFirstChild(name) and hum[name]:FindFirstChild("Man1") then
+            applyHighlight(hum[name].Man1, RED)
         end
     end
 
     -- 🔴 Internte / Mike
     for _,name in ipairs({"Internte","Mike"}) do
-        local f = hum:FindFirstChild(name)
-        if f then
-            local m1 = f:FindFirstChild("Man1")
-            if m1 then applyHighlight(m1, RED) end
+        if hum:FindFirstChild(name) and hum[name]:FindFirstChild("Man1") then
+            applyHighlight(hum[name].Man1, RED)
         end
     end
 
-    -- 🔴 Anom1 -> Anom13 (Man1)
+    -- 🔴 Anom1 → Anom13
     for i = 1, 13 do
         local anom = hum:FindFirstChild("Anom"..i)
-        if anom then
-            local m1 = anom:FindFirstChild("Man1")
-            if m1 then applyHighlight(m1, RED) end
+        if anom and anom:FindFirstChild("Man1") then
+            applyHighlight(anom.Man1, RED)
         end
     end
 
     -- 🔴 Anom1.Man2
-    local anom1 = hum:FindFirstChild("Anom1")
-    if anom1 then
-        local m2 = anom1:FindFirstChild("Man2")
-        if m2 then applyHighlight(m2, RED) end
+    if hum:FindFirstChild("Anom1") and hum.Anom1:FindFirstChild("Man2") then
+        applyHighlight(hum.Anom1.Man2, RED)
     end
 
-    -- 🔴 Scream1 -> Scream13
+    -- 🔴 Scream1 → Scream13
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
         if scream then
@@ -551,7 +554,7 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
-    -- 🔴 Fali
+    -- 🔴 Fail
     local fali = workspace:FindFirstChild("Fail")
     if fali then
         applyHighlight(fali, RED)
