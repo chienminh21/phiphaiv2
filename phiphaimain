@@ -613,365 +613,32 @@ loadstring(game:HttpGetAsync("https://github.com/richie0866/remote-spy/releases/
    end,
 })
 
-local MyTab = Window:CreateTab("boyandgirltower", nil) -- Title, Image
+local ESP_ENABLED = false
 
-local Button = MyTab:CreateButton({
-   Name = "get all coin in map",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-      local coinFolder = workspace["Coin System"].Coins
+local GameTab = Window:CreateTab("scary shawarma kiosk", nil)
 
-local player = game.Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local hrp = char:WaitForChild("HumanoidRootPart")
+GameTab:CreateToggle({
+    Name = "esp",
+    CurrentValue = false,
+    Flag = "ESP_MAIN",
+    Callback = function(Value)
+        ESP_ENABLED = Value
 
-for _, coin in ipairs(coinFolder:GetChildren()) do
-    if coin:IsA("BasePart") then
-        hrp.CFrame = coin.CFrame
-        task.wait(0.2)
-    end
-end
-   end,
+        -- TẮT → xoá toàn bộ highlight
+        if not Value then
+            for _,v in ipairs(workspace:GetDescendants()) do
+                if v:IsA("Highlight") and v.Name == "HL" then
+                    v:Destroy()
+                end
+                if v:IsA("BoolValue") and v.Name == "ESP_HL" then
+                    v:Destroy()
+                end
+            end
+        end
+    end,
 })
 
-local Button = MyTab:CreateButton({
-   Name = "Teleport Finish",
-   Callback = function()
-local player = game.Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local hrp = char:WaitForChild("HumanoidRootPart")
-
-local target = workspace:GetChildren()[38].Model:FindFirstChild("Lobby")
-
-if target and target:IsA("BasePart") then
-    hrp.CFrame = target.CFrame + Vector3.new(0, 3, 0)
-else
-    warn("Không tìm thấy Lobby")
-end
-   end,
-})
-
-local SlapTab = Window:CreateTab("slap tower 👋", nil) -- Title, Image
-
-local Button = SlapTab:CreateButton({
-   Name = "get all slap in slap tower",
-   Callback = function()
- local player = game.Players.LocalPlayer
-
-local function tpTo(part)
-    local char = player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
-    end
-end
-
-task.wait(0.1)
-
--- 1. TP đến Slap.Giver
-local giver1 = workspace:WaitForChild("Slap"):WaitForChild("Giver")
-tpTo(giver1)
-
-task.wait(0.1)
-
--- 2. TP đến workspace:GetChildren()[15].Giver
-local folder15 = workspace:GetChildren()[15]
-if folder15 and folder15:FindFirstChild("Giver") then
-    tpTo(folder15.Giver)
-end
-
-task.wait(0.1)
-
--- 3. TP đến workspace:GetChildren()[6].Giver
-local folder6 = workspace:GetChildren()[6]
-if folder6 and folder6:FindFirstChild("Giver") then
-    tpTo(folder6.Giver)
-end
-   end,
-})
-
-local Button = SlapTab:CreateButton({
-   Name = "get all slap in slap tower 2",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-local player = game.Players.LocalPlayer
-
-local function tpTo(part)
-    local char = player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
-    end
-end
-
-task.wait(1)
-
--- 1. Slap.Giver
-local giver1 = workspace:WaitForChild("Slap"):WaitForChild("Giver")
-tpTo(giver1)
-
-task.wait(1)
-
--- 2. workspace:GetChildren()[15].Giver
-local folder15 = workspace:GetChildren()[15]
-if folder15 and folder15:FindFirstChild("Giver") then
-    tpTo(folder15.Giver)
-end
-
-task.wait(1)
-
--- 3. workspace:GetChildren()[6].Giver
-local folder6 = workspace:GetChildren()[6]
-if folder6 and folder6:FindFirstChild("Giver") then
-    tpTo(folder6.Giver)
-end
-
-task.wait(1)
-
--- 4. workspace:GetChildren()[22].Giver
-local folder22 = workspace:GetChildren()[22]
-if folder22 and folder22:FindFirstChild("Giver") then
-    tpTo(folder22.Giver)
-end
-
-task.wait(1)
-
--- 5. workspace:GetChildren()[13].Giver
-local folder13 = workspace:GetChildren()[13]
-if folder13 and folder13:FindFirstChild("Giver") then
-    tpTo(folder13.Giver)
-end
-   end,
-})
-
-local Button = SlapTab:CreateButton({
-   Name = "get all slap in slap tower 3",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-local player = game.Players.LocalPlayer
-
-local function tpTo(part)
-    local char = player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
-    end
-end
-
-task.wait(0.1)
-
--- 1. workspace:GetChildren()[29].Giver
-local folder29 = workspace:GetChildren()[29]
-if folder29 and folder29:FindFirstChild("Giver") then
-    tpTo(folder29.Giver)
-end
-
-task.wait(0.1)
-
--- 2. workspace:GetChildren()[31].Giver
-local folder31 = workspace:GetChildren()[31]
-if folder31 and folder31:FindFirstChild("Giver") then
-    tpTo(folder31.Giver)
-end
-
-task.wait(0.1)
-
--- 3. workspace.Slap.Giver
-local giverSlap = workspace:WaitForChild("Slap"):WaitForChild("Giver")
-tpTo(giverSlap)
-
-task.wait(0.1)
-
--- 4. workspace:GetChildren()[15].Giver
-local folder15 = workspace:GetChildren()[15]
-if folder15 and folder15:FindFirstChild("Giver") then
-    tpTo(folder15.Giver)
-end
-   end,
-})
-
-local Button = SlapTab:CreateButton({
-   Name = "get all slap in slap tower 4",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-local player = game.Players.LocalPlayer
-
-local function tpTo(part)
-    local char = player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") and part and part:IsA("BasePart") then
-        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
-    end
-end
-
-task.wait(0.1)
-
--- 1. workspace:GetChildren()[8].Giver  (Give)
-local f8 = workspace:GetChildren()[8]
-if f8 and f8:FindFirstChild("Giver") then
-    tpTo(f8.Giver)
-end
-
-task.wait(0.1)
-
--- 2. workspace:GetChildren()[24].Giver  (Give)
-local f24 = workspace:GetChildren()[24]
-if f24 and f24:FindFirstChild("Giver") then
-    tpTo(f24.Giver)
-end
-
-task.wait(0.1)
-
--- 3. workspace:GetChildren()[20].Giver  (Giver)
-local f20 = workspace:GetChildren()[20]
-if f20 and f20:FindFirstChild("Giver") then
-    tpTo(f20.Giver)
-end
-
-task.wait(0.1)
-
--- 4. workspace:GetChildren()[8].Giver  (Giver – trùng)
-local f8b = workspace:GetChildren()[8]
-if f8b and f8b:FindFirstChild("Giver") then
-    tpTo(f8b.Giver)
-end
-
-task.wait(0.1)
-
--- 5. workspace.Slap.Giver  (Give)
-local slapGiver = workspace:WaitForChild("Slap"):WaitForChild("Giver")
-tpTo(slapGiver)
-
-task.wait(0.1)
-
--- 6. workspace:GetChildren()[19].Giver  (Giver)  <-- MỚI ĐƯA VÀO
-local f19 = workspace:GetChildren()[19]
-if f19 and f19:FindFirstChild("Giver") then
-    tpTo(f19.Giver)
-end
-
-task.wait(0.1)
-
--- 7. workspace.Model:GetChildren()[7] (object)
-local m7 = workspace:WaitForChild("Model"):GetChildren()[7]
-if m7 and m7:IsA("BasePart") then
-    tpTo(m7)
-end
-   end,
-})
-
-
-local Button = SlapTab:CreateButton({
-   Name = "get all slap in slap tower x",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-local player = game.Players.LocalPlayer
-
-local function tpTo(part)
-    local char = player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") and part then
-        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
-    end
-end
-
-task.wait(0.1)
-
--- 1. workspace:GetChildren()[8].Giver
-local f8 = workspace:GetChildren()[8]
-if f8 and f8:FindFirstChild("Giver") then
-    tpTo(f8.Giver)
-end
-
-task.wait(0.1)
-
--- 2. workspace:GetChildren()[17].Giver
-local f17 = workspace:GetChildren()[17]
-if f17 and f17:FindFirstChild("Giver") then
-    tpTo(f17.Giver)
-end
-
-task.wait(0.1)
-
--- 3. workspace.NOOB1["Right Arm"].Model.Handle  (Handle)
-local noob = workspace:FindFirstChild("NOOB1")
-if noob then
-    local rightArm = noob:FindFirstChild("Right Arm")
-    if rightArm and rightArm:FindFirstChild("Model") and rightArm.Model:FindFirstChild("Handle") then
-        tpTo(rightArm.Model.Handle)
-    end
-end
-
-task.wait(0.1)
-
--- 4. workspace:GetChildren()[9].Giver
-local f9 = workspace:GetChildren()[9]
-if f9 and f9:FindFirstChild("Giver") then
-    tpTo(f9.Giver)
-end
-   end,
-})
-
-
-local Button = SlapTab:CreateButton({
-   Name = "get all slap in slap tower 99",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-local player = game.Players.LocalPlayer
-
-local function tpTo(part)
-    local char = player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") and part then
-        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
-    end
-end
-
-task.wait(0.1)
-
--- 1. workspace:GetChildren()[25].Giver
-local f25 = workspace:GetChildren()[25]
-if f25 and f25:FindFirstChild("Giver") then
-    tpTo(f25.Giver)
-end
-
-task.wait(0.1)
-
--- 2. workspace.SecretSlap.Giver
-local secret = workspace:FindFirstChild("SecretSlap")
-if secret and secret:FindFirstChild("Giver") then
-    tpTo(secret.Giver)
-end
-
-task.wait(0.1)
-
--- 3. workspace:GetChildren()[30].Giver   (Tên là Give)
-local f30 = workspace:GetChildren()[30]
-if f30 and f30:FindFirstChild("Giver") then
-    tpTo(f30.Giver)
-end
-   end,
-})
-
-local GameTab = Window:CreateTab("scary shawarma kiosk", nil) -- Title, Image
-
-local Button = GameTab:CreateButton({
-   Name = "tp doors",
-   Callback = function()
- local player = game.Players.LocalPlayer
-
-local function tpTo(part)
-    local char = player.Character
-    if char and char:FindFirstChild("HumanoidRootPart") and part then
-        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
-    end
-end
-
-task.wait(0.1)
-
-local base = workspace:WaitForChild("Door"):WaitForChild("Base")
-tpTo(base)
-   end,
-})
-
-local Button = GameTab:CreateButton({
-   Name = "esp(beta)",
-   Callback = function()
-    local RunService = game:GetService("RunService")
+local RunService = game:GetService("RunService")
 
 local GREEN = Color3.fromRGB(0,255,0)
 local RED   = Color3.fromRGB(255,0,0)
@@ -998,14 +665,25 @@ RunService.Heartbeat:Connect(function()
     local hum = workspace:FindFirstChild("Hum")
     if not hum then return end
 
-    -- 🟢 Man1 -> Man24 (trừ RED)
+    -- 🟢 Man1 -> Man24 (trừ RED list)
     for i = 1, 24 do
-        if i ~= 5 and i ~= 7 and i ~= 17 and i ~= 20 then
+        if i ~= 5 and i ~= 17 and i ~= 20 then
             local man = hum:FindFirstChild("Man"..i)
             if man then
                 local m1 = man:FindFirstChild("Man1")
-                if m1 then applyHighlight(m1, GREEN) end
+                if m1 then
+                    applyHighlight(m1, GREEN)
+                end
             end
+        end
+    end
+
+    -- 🟢 Man7 (GREEN)
+    local man7 = hum:FindFirstChild("Man7")
+    if man7 then
+        local m1 = man7:FindFirstChild("Man1")
+        if m1 then
+            applyHighlight(m1, GREEN)
         end
     end
 
@@ -1024,7 +702,7 @@ RunService.Heartbeat:Connect(function()
     end
 
     -- 🔴 RED Man
-    for _,name in ipairs({"Man5","Man7","Man17","Man20"}) do
+    for _,name in ipairs({"Man5","Man17","Man20"}) do
         local m = hum:FindFirstChild(name)
         if m then
             local m1 = m:FindFirstChild("Man1")
@@ -1041,7 +719,7 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
-    -- 🔴 Anom1 -> Anom13
+    -- 🔴 Anom1 -> Anom13 (Man1)
     for i = 1, 13 do
         local anom = hum:FindFirstChild("Anom"..i)
         if anom then
@@ -1060,13 +738,34 @@ RunService.Heartbeat:Connect(function()
     -- 🔴 Scream1 -> Scream13
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
-        if scream then applyHighlight(scream, RED) end
+        if scream then
+            applyHighlight(scream, RED)
+        end
     end
 
     -- 🔴 Fali
     local fali = workspace:FindFirstChild("Fail")
-    if fali then applyHighlight(fali, RED) end
+    if fali then
+        applyHighlight(fali, RED)
+    end
 end)
+
+local Button = GameTab:CreateButton({
+   Name = "tp doors",
+   Callback = function()
+ local player = game.Players.LocalPlayer
+
+local function tpTo(part)
+    local char = player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") and part then
+        char.HumanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 3, 0)
+    end
+end
+
+task.wait(0.1)
+
+local base = workspace:WaitForChild("Door"):WaitForChild("Base")
+tpTo(base)
    end,
 })
 
@@ -1095,15 +794,5 @@ elseif tr:IsA("Model") then
         end
     end
 end
-   end,
-})
-
-local myTab = Window:CreateTab("server", nil) -- Title, Image
-
-local Button = myTab:CreateButton({
-   Name = "discord.gg/SYX99GChEE",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-
    end,
 })
