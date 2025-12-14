@@ -424,7 +424,38 @@ end)
 -- =========================
 -- 📌 GAME TAB
 -- =========================
-local GameTab = Window:CreateTab("scary shawarma kiosk", nil)
+local supportedPlaceIds = {
+    137826330724902,
+    128001665358186
+}
+
+local isSupportedGame = false
+for _, id in ipairs(supportedPlaceIds) do
+    if game.PlaceId == id then
+        isSupportedGame = true
+        break
+    end
+end
+
+local GameTab = nil
+
+if isSupportedGame then
+    GameTab = Window:CreateTab("GameTab", nil) -- Tạo tab chỉ khi game được hỗ trợ
+    GameTab:CreateLabel("SupportedGame")
+
+    GameTab:CreateButton({
+        Name = "CheckGame",
+        Callback = function()
+            Rayfield:Notify({
+                Title = "join discord to get update XD", 
+                Content = "Script Supported Game Scary Shawarma Kiosk: the ANOMALY [horror] ",
+                Duration = 4
+            })
+        end
+    })
+else
+    UniversalTab:CreateLabel("NoSupportedGame ")
+end
 
 local RunService = game:GetService("RunService")
 local ESP_ENABLED = false
