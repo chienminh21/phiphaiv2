@@ -557,6 +557,12 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
+    -- 🔴 Man22
+    local man22 = hum:FindFirstChild("Man22")
+    if man22 and man22:FindFirstChild("Man1") then
+        applyHighlight(man22.Man1, RED)
+    end
+
     -- 🔴 Internte / Mike
     for _,name in ipairs({"Internte","Mike"}) do
         if hum:FindFirstChild(name) and hum[name]:FindFirstChild("Man1") then
