@@ -45,7 +45,29 @@ local UIS = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local UniversalTab = Window:CreateTab("Universal", 4483362458)
 
+local Camera = workspace.CurrentCamera
+local RunService = game:GetService("RunService")
 
+local FOV_VALUE = 90
+
+UniversalTab:CreateSlider({
+    Name = "FOV",
+    Range = {70, 120},
+    Increment = 1,
+    Suffix = "°",
+    CurrentValue = 90,
+    Callback = function(Value)
+        FOV_VALUE = Value
+        Camera.FieldOfView = Value
+    end,
+})
+
+-- Giữ FOV không bị game reset
+RunService.RenderStepped:Connect(function()
+    if Camera and Camera.FieldOfView ~= FOV_VALUE then
+        Camera.FieldOfView = FOV_VALUE
+    end
+end)
 
 
 local Players = game:GetService("Players")
