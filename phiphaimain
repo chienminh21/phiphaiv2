@@ -536,40 +536,61 @@ RunService.Heartbeat:Connect(function()
     end
 
     ----------------------------------------------------------------
+    -- 🟢 Man25santa
+    ----------------------------------------------------------------
+    local santa = hum:FindFirstChild("Man25santa")
+    if santa and santa:FindFirstChild("Man1") then
+        applyHighlight(santa.Man1, GREEN)
+    end
+
+    ----------------------------------------------------------------
+    -- 🟢 Anom7.Man1 (GREEN - RIÊNG)
+    ----------------------------------------------------------------
+    local anom7 = hum:FindFirstChild("Anom7")
+    if anom7 and anom7:FindFirstChild("Man1") then
+        applyHighlight(anom7.Man1, GREEN)
+    end
+
+    ----------------------------------------------------------------
     -- 🔵 ManAN1
     ----------------------------------------------------------------
-    if hum:FindFirstChild("ManAN1") and hum.ManAN1:FindFirstChild("Man1") then
-        applyHighlight(hum.ManAN1.Man1, BLUE)
+    local manAN1 = hum:FindFirstChild("ManAN1")
+    if manAN1 and manAN1:FindFirstChild("Man1") then
+        applyHighlight(manAN1.Man1, BLUE)
     end
 
     ----------------------------------------------------------------
     -- 🔴 Internte / Mike
     ----------------------------------------------------------------
     for _,name in ipairs({"Internte","Mike"}) do
-        if hum:FindFirstChild(name) and hum[name]:FindFirstChild("Man1") then
-            applyHighlight(hum[name].Man1, RED)
+        local f = hum:FindFirstChild(name)
+        if f and f:FindFirstChild("Man1") then
+            applyHighlight(f.Man1, RED)
         end
     end
 
     ----------------------------------------------------------------
-    -- 🔴 Anom1 → Anom13
+    -- 🔴 Anom1 → Anom13 (TRỪ Anom7)
     ----------------------------------------------------------------
     for i = 1, 13 do
-        local anom = hum:FindFirstChild("Anom"..i)
-        if anom and anom:FindFirstChild("Man1") then
-            applyHighlight(anom.Man1, RED)
+        if i ~= 7 then
+            local anom = hum:FindFirstChild("Anom"..i)
+            if anom and anom:FindFirstChild("Man1") then
+                applyHighlight(anom.Man1, RED)
+            end
         end
     end
 
     ----------------------------------------------------------------
     -- 🔴 Anom1.Man2
     ----------------------------------------------------------------
-    if hum:FindFirstChild("Anom1") and hum.Anom1:FindFirstChild("Man2") then
-        applyHighlight(hum.Anom1.Man2, RED)
+    local anom1 = hum:FindFirstChild("Anom1")
+    if anom1 and anom1:FindFirstChild("Man2") then
+        applyHighlight(anom1.Man2, RED)
     end
 
     ----------------------------------------------------------------
-    -- 🔴 Scream
+    -- 🔴 Scream1 → Scream13
     ----------------------------------------------------------------
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
