@@ -45,6 +45,9 @@ local UIS = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local UniversalTab = Window:CreateTab("Universal", 4483362458)
 
+
+
+
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
 
@@ -234,6 +237,33 @@ UniversalTab:CreateToggle({
         FastInteractEnabled = Value
     end,
 })
+
+----------------------------------------------------------------
+-- 🤖 AUTO INTERACT (FIX - WORKING)
+----------------------------------------------------------------
+local ProximityPromptService = game:GetService("ProximityPromptService")
+
+local AutoInteractEnabled = false
+
+UniversalTab:CreateToggle({
+    Name = "Auto Interact",
+    CurrentValue = false,
+    Flag = "autointeract",
+    Callback = function(Value)
+        AutoInteractEnabled = Value
+    end,
+})
+
+ProximityPromptService.PromptShown:Connect(function(prompt)
+    if not AutoInteractEnabled then return end
+
+    -- Chờ rất ngắn để tránh lỗi
+    task.wait(0.05)
+
+    pcall(function()
+        fireproximityprompt(prompt)
+    end)
+end)
 
 local MainTab = Window:CreateTab("Universal1", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("Universal1")
