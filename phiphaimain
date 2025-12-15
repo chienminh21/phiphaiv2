@@ -52,10 +52,10 @@ local FOV_VALUE = 90
 
 UniversalTab:CreateSlider({
     Name = "FOV",
-    Range = {70, 120},
+    Range = {70, 360},
     Increment = 1,
     Suffix = "°",
-    CurrentValue = 90,
+    CurrentValue = 60,
     Callback = function(Value)
         FOV_VALUE = Value
         Camera.FieldOfView = Value
