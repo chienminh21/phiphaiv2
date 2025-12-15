@@ -744,3 +744,99 @@ elseif tr:IsA("Model") then
 end
    end,
 })
+
+-- =========================
+-- SERVICES
+-- =========================
+local ProximityPromptService = game:GetService("ProximityPromptService")
+local RunService = game:GetService("RunService")
+
+-- =========================
+-- STATE
+-- =========================
+local AUTO_INTERACT = false
+local INTERACT_DELAY = 0.15
+local autoThread = nil
+
+-- =========================
+-- PROMPT LIST
+-- =========================
+local PromptList = {
+
+    workspace.Kit.Salad.Button.ProximityPrompt,
+    workspace.Kit.Lavash.Button.ProximityPrompt,
+    workspace.Kit.Cheese.Button.ProximityPrompt,
+    workspace.Kebab.kebabmyaso["Kebab.040"].ProximityPrompt,
+    workspace.Kit.Done.Lavash.ProximityPrompt,
+    workspace.Kit.Fry.Button.ProximityPrompt,
+    workspace.Kit.Sauce.Button.ProximityPrompt,
+    workspace.Kit.Board.ProximityPrompt,
+    workspace.Kit.popcan.ProximityPrompt,
+
+    workspace.Cans.Prompts:GetChildren()[28].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[27].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[26].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[25].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[24].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[23].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[22].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[7].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[6].ProximityPrompt,
+    workspace.Cans.Prompts:GetChildren()[5].ProximityPrompt,
+
+    workspace.Cans.Prompts.popcan.ProximityPrompt,
+    workspace.Cans.Prompts.popcan2.ProximityPrompt,
+    workspace.Cans.Prompts.popcan3.ProximityPrompt,
+    workspace.Cans.Prompts.popcan4.ProximityPrompt,
+}
+
+-- =========================
+-- SETUP PROMPT (E TO – NHANH)
+-- =========================
+local function setupPrompt(p)
+    if not p or not p:IsA("ProximityPrompt") then return end
+    p.HoldDuration = 0
+    p.MaxActivationDistance = 25
+    p.RequiresLineOfSight = false
+    p.KeyboardKeyCode = Enum.KeyCode.E
+end
+
+for _,p in ipairs(PromptList) do
+    setupPrompt(p)
+end
+
+-- =========================
+-- AUTO INTERACT LOOP
+-- =========================
+local function startAutoInteract()
+    if autoThread then return end
+
+    autoThread = task.spawn(function()
+        while AUTO_INTERACT do
+            for _,prompt in ipairs(PromptList) do
+                if prompt and prompt.Parent then
+                    pcall(function()
+                        fireproximityprompt(prompt)
+                    end)
+                end
+            end
+            task.wait(INTERACT_DELAY)
+        end
+        autoThread = nil
+    end)
+end
+
+-- =========================
+-- TOGGLE TRONG GAMETAB
+-- =========================
+GameTab:CreateToggle({
+    Name = "Auto Interact (E)",
+    CurrentValue = false,
+    Flag = "auto_interact",
+    Callback = function(Value)
+        AUTO_INTERACT = Value
+        if Value then
+            startAutoInteract()
+        end
+    end,
+})
