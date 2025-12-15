@@ -830,7 +830,7 @@ end
 -- TOGGLE TRONG GAMETAB
 -- =========================
 GameTab:CreateToggle({
-    Name = "Auto Interact (E)",
+    Name = "Auto Make Sahwarma(no give)",
     CurrentValue = false,
     Flag = "auto_interact",
     Callback = function(Value)
