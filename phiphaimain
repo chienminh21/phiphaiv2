@@ -577,19 +577,11 @@ RunService.Heartbeat:Connect(function()
     end
 
     ----------------------------------------------------------------
-    -- 🟢 Cat.Man1 (GREEN) ✅
+    -- 🟢 Cat.Man1 (GREEN)
     ----------------------------------------------------------------
     local cat = hum:FindFirstChild("Cat")
     if cat and cat:FindFirstChild("Man1") then
         applyHighlight(cat.Man1, GREEN)
-    end
-
-    ----------------------------------------------------------------
-    -- 🟢 Anom7.Man1 (GREEN)
-    ----------------------------------------------------------------
-    local anom7 = hum:FindFirstChild("Anom7")
-    if anom7 and anom7:FindFirstChild("Man1") then
-        applyHighlight(anom7.Man1, GREEN)
     end
 
     ----------------------------------------------------------------
@@ -611,14 +603,12 @@ RunService.Heartbeat:Connect(function()
     end
 
     ----------------------------------------------------------------
-    -- 🔴 Anom1 → Anom13 (TRỪ Anom7)
+    -- 🔴 Anom1 → Anom13 (BAO GỒM Anom7)
     ----------------------------------------------------------------
     for i = 1, 13 do
-        if i ~= 7 then
-            local anom = hum:FindFirstChild("Anom"..i)
-            if anom and anom:FindFirstChild("Man1") then
-                applyHighlight(anom.Man1, RED)
-            end
+        local anom = hum:FindFirstChild("Anom"..i)
+        if anom and anom:FindFirstChild("Man1") then
+            applyHighlight(anom.Man1, RED)
         end
     end
 
@@ -631,7 +621,7 @@ RunService.Heartbeat:Connect(function()
     end
 
     ----------------------------------------------------------------
-    -- 🔴 Scream1 → Scream13
+    -- 🔴 Scream1 → Scream13 (Scream12 포함)
     ----------------------------------------------------------------
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
