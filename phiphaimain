@@ -520,14 +520,16 @@ GameTab:CreateToggle({
 -- 🔁 MAIN LOOP (FIX AUTO ON)
 -- =========================
 RunService.Heartbeat:Connect(function()
-    if not ESP_ENABLED then return end   -- ❗ FIX QUAN TRỌNG
+    if not ESP_ENABLED then return end   -- ❗ KHÔNG AUTO ON
 
     local hum = workspace:FindFirstChild("Hum")
     if not hum then return end
 
-    -- 🟢 Man1 → Man24 (trừ đỏ)
+    ----------------------------------------------------------------
+    -- 🟢 GREEN MAN (Man1 → Man24, trừ RED list)
+    ----------------------------------------------------------------
     for i = 1, 24 do
-        if i ~= 5 and i ~= 17 and i ~= 20 then
+        if i ~= 17 and i ~= 20 and i ~= 21 and i ~= 22 then
             local man = hum:FindFirstChild("Man"..i)
             if man and man:FindFirstChild("Man1") then
                 applyHighlight(man.Man1, GREEN)
@@ -535,42 +537,61 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
+    ----------------------------------------------------------------
+    -- 🟢 Man5 (GREEN - RIÊNG)
+    ----------------------------------------------------------------
+    local man5 = hum:FindFirstChild("Man5")
+    if man5 and man5:FindFirstChild("Man1") then
+        applyHighlight(man5.Man1, GREEN)
+    end
+
+    ----------------------------------------------------------------
     -- 🟢 Man7
+    ----------------------------------------------------------------
     if hum:FindFirstChild("Man7") and hum.Man7:FindFirstChild("Man1") then
         applyHighlight(hum.Man7.Man1, GREEN)
     end
 
+    ----------------------------------------------------------------
     -- 🟢 Man25santa
+    ----------------------------------------------------------------
     if hum:FindFirstChild("Man25santa") and hum.Man25santa:FindFirstChild("Man1") then
         applyHighlight(hum.Man25santa.Man1, GREEN)
     end
 
-    -- 🔵 ManAN1
+    ----------------------------------------------------------------
+    -- 🔵 ManAN1 (BLUE)
+    ----------------------------------------------------------------
     if hum:FindFirstChild("ManAN1") and hum.ManAN1:FindFirstChild("Man1") then
         applyHighlight(hum.ManAN1.Man1, BLUE)
     end
 
+    ----------------------------------------------------------------
     -- 🔴 RED MAN
-    for _,name in ipairs({"Man5","Man17","Man20"}) do
+    ----------------------------------------------------------------
+    for _,name in ipairs({
+        "Man17",
+        "Man20",
+        "Man21",
+        "Man22"
+    }) do
         if hum:FindFirstChild(name) and hum[name]:FindFirstChild("Man1") then
             applyHighlight(hum[name].Man1, RED)
         end
     end
 
-    -- 🔴 Man22
-    local man22 = hum:FindFirstChild("Man22")
-    if man22 and man22:FindFirstChild("Man1") then
-        applyHighlight(man22.Man1, RED)
-    end
-
+    ----------------------------------------------------------------
     -- 🔴 Internte / Mike
+    ----------------------------------------------------------------
     for _,name in ipairs({"Internte","Mike"}) do
         if hum:FindFirstChild(name) and hum[name]:FindFirstChild("Man1") then
             applyHighlight(hum[name].Man1, RED)
         end
     end
 
-    -- 🔴 Anom1 → Anom13
+    ----------------------------------------------------------------
+    -- 🔴 Anom1 → Anom13 (Man1)
+    ----------------------------------------------------------------
     for i = 1, 13 do
         local anom = hum:FindFirstChild("Anom"..i)
         if anom and anom:FindFirstChild("Man1") then
@@ -578,12 +599,16 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
+    ----------------------------------------------------------------
     -- 🔴 Anom1.Man2
+    ----------------------------------------------------------------
     if hum:FindFirstChild("Anom1") and hum.Anom1:FindFirstChild("Man2") then
         applyHighlight(hum.Anom1.Man2, RED)
     end
 
+    ----------------------------------------------------------------
     -- 🔴 Scream1 → Scream13
+    ----------------------------------------------------------------
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
         if scream then
@@ -591,10 +616,12 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
+    ----------------------------------------------------------------
     -- 🔴 Fail
-    local fali = workspace:FindFirstChild("Fail")
-    if fali then
-        applyHighlight(fali, RED)
+    ----------------------------------------------------------------
+    local fail = workspace:FindFirstChild("Fail")
+    if fail then
+        applyHighlight(fail, RED)
     end
 end)
 
