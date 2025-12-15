@@ -50,6 +50,39 @@ local UniversalTab = Window:CreateTab("Universal", 4483362458)
 ----------------------------------------------------------------
 local oldMaxZoom = player.CameraMaxZoomDistance
 
+local ThirdPersonEnabled = false
+local player = game.Players.LocalPlayer
+
+local oldCameraMode
+local oldMinZoom
+local oldMaxZoom
+
+UniversalTab:CreateToggle({
+    Name = "Third Person View",
+    CurrentValue = false,
+    Flag = "thirdperson",
+    Callback = function(Value)
+        ThirdPersonEnabled = Value
+
+        if Value then
+            -- LƯU TRẠNG THÁI CŨ
+            oldCameraMode = player.CameraMode
+            oldMinZoom = player.CameraMinZoomDistance
+            oldMaxZoom = player.CameraMaxZoomDistance
+
+            -- MỞ KHOÁ FIRST PERSON
+            player.CameraMode = Enum.CameraMode.Classic
+            player.CameraMinZoomDistance = 8
+            player.CameraMaxZoomDistance = 20
+        else
+            -- TRẢ LẠI NHƯ CŨ
+            player.CameraMode = oldCameraMode or Enum.CameraMode.LockFirstPerson
+            player.CameraMinZoomDistance = oldMinZoom or 0
+            player.CameraMaxZoomDistance = oldMaxZoom or 0
+        end
+    end,
+})
+
 UniversalTab:CreateToggle({
     Name = "Unlock Max Zoom",
     CurrentValue = false,
