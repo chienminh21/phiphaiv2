@@ -611,6 +611,8 @@ GameTab:CreateToggle({
 -- =========================
 -- 🔁 MAIN LOOP (FIX AUTO ON)
 -- =========================
+local RunService = game:GetService("RunService")
+
 RunService.Heartbeat:Connect(function()
     if not ESP_ENABLED then return end
 
@@ -636,11 +638,19 @@ RunService.Heartbeat:Connect(function()
     end
 
     ----------------------------------------------------------------
-    -- 🟢 Cat.Man1 (GREEN)
+    -- 🟢 Cat.Man1
     ----------------------------------------------------------------
     local cat = hum:FindFirstChild("Cat")
     if cat and cat:FindFirstChild("Man1") then
         applyHighlight(cat.Man1, GREEN)
+    end
+
+    ----------------------------------------------------------------
+    -- 🟢 ManAN2.Man1 (NEW)
+    ----------------------------------------------------------------
+    local manAN2 = hum:FindFirstChild("ManAN2")
+    if manAN2 and manAN2:FindFirstChild("Man1") then
+        applyHighlight(manAN2.Man1, GREEN)
     end
 
     ----------------------------------------------------------------
@@ -654,7 +664,7 @@ RunService.Heartbeat:Connect(function()
     ----------------------------------------------------------------
     -- 🔴 Internte / Mike
     ----------------------------------------------------------------
-    for _,name in ipairs({"Internte","Mike"}) do
+    for _, name in ipairs({"Internte", "Mike"}) do
         local f = hum:FindFirstChild(name)
         if f and f:FindFirstChild("Man1") then
             applyHighlight(f.Man1, RED)
@@ -680,13 +690,21 @@ RunService.Heartbeat:Connect(function()
     end
 
     ----------------------------------------------------------------
-    -- 🔴 Scream1 → Scream13 (Scream12 포함)
+    -- 🔴 Scream1 → Scream13
     ----------------------------------------------------------------
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
         if scream then
             applyHighlight(scream, RED)
         end
+    end
+
+    ----------------------------------------------------------------
+    -- 🔴 Scream18 (NEW)
+    ----------------------------------------------------------------
+    local scream18 = hum:FindFirstChild("Scream18")
+    if scream18 then
+        applyHighlight(scream18, RED)
     end
 
     ----------------------------------------------------------------
