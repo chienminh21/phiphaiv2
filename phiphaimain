@@ -48,14 +48,14 @@ local UniversalTab = Window:CreateTab("Universal", 4483362458)
 local Camera = workspace.CurrentCamera
 local RunService = game:GetService("RunService")
 
-local FOV_VALUE = 60
+local FOV_VALUE = 70
 
 UniversalTab:CreateSlider({
     Name = "FOV",
-    Range = {70, 360},
+    Range = {70, 120},
     Increment = 1,
     Suffix = "°",
-    CurrentValue = 60,
+    CurrentValue = 70,
     Callback = function(Value)
         FOV_VALUE = Value
         Camera.FieldOfView = Value
