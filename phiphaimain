@@ -526,43 +526,13 @@ RunService.Heartbeat:Connect(function()
     if not hum then return end
 
     ----------------------------------------------------------------
-    -- 🟢 GREEN MAN (Man1 → Man24, trừ RED list)
+    -- 🟢 GREEN MAN (Man1 → Man24)
     ----------------------------------------------------------------
     for i = 1, 24 do
-        if i ~= 20 and i ~= 21 and i ~= 22 then
-            local man = hum:FindFirstChild("Man"..i)
-            if man and man:FindFirstChild("Man1") then
-                applyHighlight(man.Man1, GREEN)
-            end
+        local man = hum:FindFirstChild("Man"..i)
+        if man and man:FindFirstChild("Man1") then
+            applyHighlight(man.Man1, GREEN)
         end
-    end
-
-    ----------------------------------------------------------------
-    -- 🟢 Man5 (GREEN)
-    ----------------------------------------------------------------
-    if hum:FindFirstChild("Man5") and hum.Man5:FindFirstChild("Man1") then
-        applyHighlight(hum.Man5.Man1, GREEN)
-    end
-
-    ----------------------------------------------------------------
-    -- 🟢 Man17 (GREEN) ✅ THÊM
-    ----------------------------------------------------------------
-    if hum:FindFirstChild("Man17") and hum.Man17:FindFirstChild("Man1") then
-        applyHighlight(hum.Man17.Man1, GREEN)
-    end
-
-    ----------------------------------------------------------------
-    -- 🟢 Man7
-    ----------------------------------------------------------------
-    if hum:FindFirstChild("Man7") and hum.Man7:FindFirstChild("Man1") then
-        applyHighlight(hum.Man7.Man1, GREEN)
-    end
-
-    ----------------------------------------------------------------
-    -- 🟢 Man25santa
-    ----------------------------------------------------------------
-    if hum:FindFirstChild("Man25santa") and hum.Man25santa:FindFirstChild("Man1") then
-        applyHighlight(hum.Man25santa.Man1, GREEN)
     end
 
     ----------------------------------------------------------------
@@ -570,19 +540,6 @@ RunService.Heartbeat:Connect(function()
     ----------------------------------------------------------------
     if hum:FindFirstChild("ManAN1") and hum.ManAN1:FindFirstChild("Man1") then
         applyHighlight(hum.ManAN1.Man1, BLUE)
-    end
-
-    ----------------------------------------------------------------
-    -- 🔴 RED MAN
-    ----------------------------------------------------------------
-    for _,name in ipairs({
-        "Man20",
-        "Man21",
-        "Man22"
-    }) do
-        if hum:FindFirstChild(name) and hum[name]:FindFirstChild("Man1") then
-            applyHighlight(hum[name].Man1, RED)
-        end
     end
 
     ----------------------------------------------------------------
@@ -612,7 +569,7 @@ RunService.Heartbeat:Connect(function()
     end
 
     ----------------------------------------------------------------
-    -- 🔴 Scream1 → Scream13
+    -- 🔴 Scream
     ----------------------------------------------------------------
     for i = 1, 13 do
         local scream = hum:FindFirstChild("Scream"..i)
