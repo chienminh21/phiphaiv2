@@ -785,33 +785,23 @@ end
    end,
 })
 
--- =========================
--- SERVICES
--- =========================
-local ProximityPromptService = game:GetService("ProximityPromptService")
-local RunService = game:GetService("RunService")
+local Button = GameTab:CreateButton({
+   Name = "auto make shawarma",
+   Callback = function()
 
 -- =========================
--- STATE
+-- DANH SÁCH PROMPT (THEO THỨ TỰ)
 -- =========================
-local AUTO_INTERACT = false
-local INTERACT_DELAY = 0.15
-local autoThread = nil
-
--- =========================
--- PROMPT LIST
--- =========================
-local PromptList = {
-
+local OrderedPrompts = {
     workspace.Kit.Salad.Button.ProximityPrompt,
     workspace.Kit.Lavash.Button.ProximityPrompt,
     workspace.Kit.Cheese.Button.ProximityPrompt,
     workspace.Kebab.kebabmyaso["Kebab.040"].ProximityPrompt,
-    workspace.Kit.Done.Lavash.ProximityPrompt,
     workspace.Kit.Fry.Button.ProximityPrompt,
     workspace.Kit.Sauce.Button.ProximityPrompt,
     workspace.Kit.Board.ProximityPrompt,
     workspace.Kit.popcan.ProximityPrompt,
+    workspace.Kit.Done.Lavash.ProximityPrompt,
 
     workspace.Cans.Prompts:GetChildren()[28].ProximityPrompt,
     workspace.Cans.Prompts:GetChildren()[27].ProximityPrompt,
@@ -831,52 +821,28 @@ local PromptList = {
 }
 
 -- =========================
--- SETUP PROMPT (E TO – NHANH)
+-- SETUP PROMPT
 -- =========================
-local function setupPrompt(p)
-    if not p or not p:IsA("ProximityPrompt") then return end
-    p.HoldDuration = 0
-    p.MaxActivationDistance = 25
-    p.RequiresLineOfSight = false
-    p.KeyboardKeyCode = Enum.KeyCode.E
-end
-
-for _,p in ipairs(PromptList) do
-    setupPrompt(p)
+for _,p in ipairs(OrderedPrompts) do
+    if p and p:IsA("ProximityPrompt") then
+        p.HoldDuration = 0
+        p.MaxActivationDistance = 30
+        p.RequiresLineOfSight = false
+    end
 end
 
 -- =========================
--- AUTO INTERACT LOOP
+-- GỘP CÁC BƯỚC & CHẠY 1 LẦN
 -- =========================
-local function startAutoInteract()
-    if autoThread then return end
+local STEP_DELAY = 0.25
 
-    autoThread = task.spawn(function()
-        while AUTO_INTERACT do
-            for _,prompt in ipairs(PromptList) do
-                if prompt and prompt.Parent then
-                    pcall(function()
-                        fireproximityprompt(prompt)
-                    end)
-                end
-            end
-            task.wait(INTERACT_DELAY)
-        end
-        autoThread = nil
-    end)
+for _,prompt in ipairs(OrderedPrompts) do
+    if prompt and prompt.Parent then
+        pcall(function()
+            fireproximityprompt(prompt)
+        end)
+        task.wait(STEP_DELAY)
+    end
 end
-
--- =========================
--- TOGGLE TRONG GAMETAB
--- =========================
-GameTab:CreateToggle({
-    Name = "Auto Make Sahwarma(no give)",
-    CurrentValue = false,
-    Flag = "auto_interact",
-    Callback = function(Value)
-        AUTO_INTERACT = Value
-        if Value then
-            startAutoInteract()
-        end
-    end,
+   end,
 })
