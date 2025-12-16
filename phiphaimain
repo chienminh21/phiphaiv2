@@ -739,7 +739,59 @@ RunService.Heartbeat:Connect(function()
 end)
 
 local Button = GameTab:CreateButton({
-   Name = "tp doors",
+   Name = "tp end3(u will die)",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+
+-- SERVICES
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function TP_BlackBox_Part()
+    local char = player.Character or player.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+
+    local blackBox = workspace:FindFirstChild("BlackBox")
+    if not blackBox then
+        warn("❌ Không tìm thấy BlackBox")
+        return
+    end
+
+    local children = blackBox:GetChildren()
+    local target = children[10]
+
+    if not target then
+        warn("❌ BlackBox không có GetChildren()[10]")
+        return
+    end
+
+    -- Nếu là Part
+    if target:IsA("BasePart") then
+        hrp.CFrame = target.CFrame + Vector3.new(0, 4, 0)
+        print("✅ TP tới BlackBox Part thành công")
+        return
+    end
+
+    -- Nếu là Model → tìm Part bên trong
+    if target:IsA("Model") then
+        local part = target:FindFirstChildWhichIsA("BasePart", true)
+        if part then
+            hrp.CFrame = part.CFrame + Vector3.new(0, 4, 0)
+            print("✅ TP tới Model trong BlackBox thành công")
+            return
+        end
+    end
+
+    warn("❌ Object tồn tại nhưng không có Part để TP")
+end
+
+TP_BlackBox_Part()
+
+   end,
+})
+
+local Button = GameTab:CreateButton({
+   Name = "tp home",
    Callback = function()
  local player = game.Players.LocalPlayer
 
@@ -786,7 +838,7 @@ end
 })
 
 local Button = GameTab:CreateButton({
-   Name = "auto make shawarma",
+   Name = "make shawarma",
    Callback = function()
 
 -- =========================
