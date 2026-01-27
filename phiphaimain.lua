@@ -8,4 +8,4 @@ pcall(function()
 end)
 
 
-player:Kick("hello wait update and join server copy new script:/" .. discordInvite)
+player:Kick("join server copy new script:/" .. discordInvite)
