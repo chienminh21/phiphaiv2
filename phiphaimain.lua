@@ -13,7 +13,7 @@ end
 task.wait(1)
 
 player:Kick(
-	"/INDO/ Link Discord đã được copy\n" ..
+	"/En/ Discord link copied\n\" ..
 	"/AR/ تم نسخ رابط Discord\n" ..
 	"/EN/ Discord link copied\n\n" ..
 	discordInvite
