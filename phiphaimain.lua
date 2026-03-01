@@ -8,6 +8,7 @@ local Scripts = {
 	[130594398886540] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/gardenhorizons",
   [116495829188952] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/DeadRails.lua",
   [70876832253163] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/DeadRails.lua",
+	[108172906114565] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/sol%E2%80%99sRNGBoss2.lua",
 }
 
 local url = Scripts[PlaceId]
