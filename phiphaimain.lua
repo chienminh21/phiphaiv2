@@ -17,6 +17,7 @@ local Scripts = {
 	[82671281194242] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/HardModeAmberAlert.lua",
 	[92671411590360] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/NightmareModeAmberAlert.lua",
 	[82511549210927] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/ExpertModeAmberAlert.lua",
+	[87778445949069] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/GrandparentsModeAmberAlert.lua",
 }
 
 local url = Scripts[PlaceId]
