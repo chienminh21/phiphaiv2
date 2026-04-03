@@ -21,6 +21,7 @@ local Scripts = {
 	[142823291] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/MM2Z.lua",
 	[100325591601715] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/MM2Z.lua",
 	[80469437126309] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/MM2Z.lua",
+	[80356011995441] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/minecraftfake.lua",
 }
 
 local url = Scripts[PlaceId]
