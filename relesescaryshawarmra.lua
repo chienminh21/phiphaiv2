@@ -785,8 +785,10 @@ ESPSection:Slider({
     end
 })
 
+local ESPToggles = {}
+
 local function AddESP(name, cfg)
-    ESPSection:Toggle({
+    local toggle = ESPSection:Toggle({
         Title = "ESP "..name,
         Value = false,
         Callback = function(v)
@@ -795,7 +797,7 @@ local function AddESP(name, cfg)
         end
     })
 
-	
+    ESPToggles[name] = toggle -- 🔥 lưu lại
 
     ESPSection:Colorpicker({
         Title = name.." Color",
@@ -817,7 +819,24 @@ local function AddESP(name, cfg)
     })
 end
 
+ESPSection:Toggle({
+    Title = "Enable All ESP",
+    Value = false,
+    Callback = function(state)
+        for name, cfg in pairs(ESP) do
+            cfg.ON = state
 
+            -- 🔥 bật/tắt luôn UI toggle
+            if ESPToggles[name] then
+                ESPToggles[name]:Set(state)
+            end
+
+            if not state then
+                Clear(cfg.TEXTS)
+            end
+        end
+    end
+})
 AddESP("Amon",ESP.Amon)
 AddESP("Hum",ESP.Hum)
 AddESP("Special",ESP.Special)
