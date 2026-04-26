@@ -48,7 +48,7 @@ local PlaceID = game.PlaceId
 
 
 local Window = WindUI:CreateWindow({
-    Title = "PhiPhai v2 | TestUiWibu ",
+    Title = "PhiPhai v2 | SSK ",
     Icon = "rbxassetid://133256696556004",
     Author = "by aaaaaaaa",
     Folder = "PPv2Save",
@@ -198,10 +198,204 @@ task.spawn(function()
 end)
 
 
-local SectionMain = MainTab:Section({
-    Title = "test",
-    Opened = false
+
+
+local AutoSpamSection = MainTab:Section({
+    Title = "Auto Spam"
 })
+local function getPrompt(path)
+
+    local obj = workspace
+
+    for _,v in ipairs(path) do
+
+        obj = obj and obj:FindFirstChild(v)
+
+    end
+
+    return obj and obj:FindFirstChildOfClass("ProximityPrompt")
+
+end
+
+
+local AutoGarge = false
+
+local GargeDelay = 0.3
+
+AutoSpamSection:Toggle({
+
+    Title = "Auto Press Garge",
+
+    Value = false,
+
+    Callback = function(v)
+
+        AutoGarge = v
+
+    end
+
+})
+
+AutoSpamSection:Slider({
+
+    Title = "Garge Delay",
+
+    Value = {Default = 0.3, Min = 0.05, Max = 5, Rounding = 2},
+
+    Callback = function(v)
+
+        GargeDelay = v
+
+    end
+
+})
+
+task.spawn(function()
+
+    while true do
+
+        if AutoGarge then
+
+            local prompt = getPrompt({"Kit","Garge","Button"})
+
+            firePrompt(prompt)
+
+        end
+
+        task.wait(GargeDelay)
+
+    end
+
+end)
+
+
+
+local AutoClear = false
+
+local ClearDelay = 0.05
+
+local lastFire = 0
+
+local clearConn
+
+local cachedClear
+
+AutoSpamSection:Toggle({
+
+    Title = "Auto Clear",
+
+    Value = false,
+
+    Callback = function(v)
+
+        AutoClear = v
+
+        lastFire = 0
+
+        if clearConn then
+
+            clearConn:Disconnect()
+
+            clearConn = nil
+
+        end
+
+        if not v then
+
+            cachedClear = nil
+
+            return
+
+        end
+
+        clearConn = RunService.Heartbeat:Connect(function()
+
+            if not AutoClear then return end
+
+            if not cachedClear or not cachedClear.Parent then
+
+                cachedClear = getPrompt({"Hum","Man32","shawerma","D3"})
+
+            end
+
+            if cachedClear and tick() - lastFire >= ClearDelay then
+
+                firePrompt(cachedClear)
+
+                lastFire = tick()
+
+            end
+
+        end)
+
+    end
+
+})
+
+AutoSpamSection:Slider({
+
+    Title = "Auto Clear Speed",
+
+    Value = {Default = 0.05, Min = 0.01, Max = 5, Rounding = 2},
+
+    Callback = function(v)
+
+        ClearDelay = v
+
+    end
+
+})
+
+
+local AutoKebab = false
+
+local KebabDelay = 5
+
+AutoSpamSection:Toggle({
+
+    Title = "Auto Get Meat",
+
+    Value = false,
+
+    Callback = function(v)
+
+        AutoKebab = v
+
+    end
+
+})
+
+AutoSpamSection:Slider({
+
+    Title = "Kebab Delay (S)",
+
+    Value = {Default = 5, Min = 1, Max = 999, Rounding = 0},
+
+    Callback = function(v)
+
+        KebabDelay = v
+
+    end
+
+})
+
+task.spawn(function()
+
+    while true do
+
+        if AutoKebab then
+
+            local prompt = getPrompt({"Kebab","kebabmyaso","Kebab.040"})
+
+            firePrompt(prompt)
+
+        end
+
+        task.wait(KebabDelay)
+
+    end
+
+end)
 
 
 
