@@ -30,3 +30,6 @@ if url then
 else
 	warn("Game No Support")
 end
+
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/huhucheck.lua"))()
