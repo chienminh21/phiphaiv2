@@ -1,5 +1,14 @@
-local PlaceId = game.PlaceId
+local function N(t)
+    pcall(function()
+        game.StarterGui:SetCore("SendNotification",{Title="PP Loader",Text=t,Duration=5})
+    end)
+end
 
+task.delay(1,function()
+    N("wait script loader | don't executor again.")
+end)
+
+local PlaceId = game.PlaceId
 local UNIVERSAL = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/universal.lua"
 
 local Scripts = {
