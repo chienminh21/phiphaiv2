@@ -1,3 +1,7 @@
+if _G.caideogivay then
+    return
+end
+_G.caideogivay = true
 local function N(t)
     pcall(function()
         game.StarterGui:SetCore("SendNotification",{Title="PP Loader",Text=t,Duration=5})
@@ -8,8 +12,8 @@ task.delay(1,function()
     N("wait script loader | don't executor again.")
 end)
 
-local PlaceId = game.PlaceId
-local UNIVERSAL = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/universal.lua"
+local luoivl = game.PlaceId
+local saiduocallgameluon = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/universal.lua"
 
 local Scripts = {
     [102212685525266] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/shotbrainrot.lua",
@@ -36,27 +40,37 @@ local Scripts = {
 	[94309190278698] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/safetynotrequired.lua",
 	[77419850589072] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/safetynotrequired.lua",
 }
-
 local function loadScript(url)
-	local ok, res = pcall(function()
-		return game:HttpGet(url)
-	end)
-
-	if ok and res then
-		local f = loadstring(res)
-		if f then
-			pcall(f)
-		end
-	end
+    local ok, res = pcall(function()
+        return game:HttpGet(url)
+    end)
+    if not ok then
+        warn("https:// loi:", url)
+        return
+    end
+    local func, err = loadstring(res)
+    if not func then
+        warn("loader loi:", err)
+        return
+    end
+    local success, runtimeErr = pcall(func)
+    if not success then
+        warn("runtime loi:", runtimeErr)
+    end
 end
-
-local url = Scripts[PlaceId]
-
+local url = Scripts[luoivl]
 if url then
-	loadScript(url)
+    loadScript(url)
 else
-	loadScript(UNIVERSAL)
+    loadScript(saiduocallgameluon)
 end
 task.spawn(function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/picklol.lua"))()
+    local ok, err = pcall(function()
+        loadstring(game:HttpGet(
+            "https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/picklol.lua"
+        ))()
+    end)
+    if not ok then
+        warn("loader end loi:", err)
+    end
 end)
