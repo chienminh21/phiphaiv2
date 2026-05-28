@@ -1,7 +1,4 @@
-if _G.caideogivay then
-    return
-end
-_G.caideogivay = true
+
 local function N(t)
     pcall(function()
         game.StarterGui:SetCore("SendNotification",{Title="PP Loader",Text=t,Duration=5})
