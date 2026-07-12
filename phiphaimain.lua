@@ -36,6 +36,7 @@ local Scripts = {
     [80356011995441] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/minecraftfake.lua",
 	[94309190278698] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/safetynotrequired.lua",
 	[77419850589072] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/safetynotrequired.lua",
+	[111894976456494] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/amlf.lua",
 }
 local function loadScript(url)
     local ok, res = pcall(function()
