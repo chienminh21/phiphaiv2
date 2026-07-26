@@ -1,4 +1,101 @@
+local Discord = "https://discord.gg/6y7TpYTBkW"
+local luoivl = game.PlaceId
+local saiduocallgameluon = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/universal.lua"
 
+local function ShowDiscordNotification()
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "PP_DiscordNotify"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.Parent = game:GetService("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 320, 0, 140)
+    Frame.Position = UDim2.new(0.5, -160, 0, 20)
+    Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+    Frame.BorderSizePixel = 0
+    Frame.Parent = ScreenGui
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 10)
+    UICorner.Parent = Frame
+
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, -20, 0, 30)
+    Title.Position = UDim2.new(0, 10, 0, 8)
+    Title.BackgroundTransparency = 1
+    Title.Text = "PP Loader"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.Font = Enum.Font.GothamBold
+    Title.TextSize = 16
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.Parent = Frame
+
+    local Content = Instance.new("TextLabel")
+    Content.Size = UDim2.new(1, -20, 0, 40)
+    Content.Position = UDim2.new(0, 10, 0, 40)
+    Content.BackgroundTransparency = 1
+    Content.Text = "Join Discord plzz<3\n" .. Discord
+    Content.TextColor3 = Color3.fromRGB(200, 200, 210)
+    Content.Font = Enum.Font.Gotham
+    Content.TextSize = 13
+    Content.TextWrapped = true
+    Content.TextXAlignment = Enum.TextXAlignment.Left
+    Content.Parent = Frame
+
+    local CopyBtn = Instance.new("TextButton")
+    CopyBtn.Size = UDim2.new(0, 140, 0, 32)
+    CopyBtn.Position = UDim2.new(0, 10, 1, -42)
+    CopyBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- Discord color
+    CopyBtn.Text = "Copy Discord"
+    CopyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CopyBtn.Font = Enum.Font.GothamBold
+    CopyBtn.TextSize = 14
+    CopyBtn.Parent = Frame
+
+    local CopyCorner = Instance.new("UICorner")
+    CopyCorner.CornerRadius = UDim.new(0, 6)
+    CopyCorner.Parent = CopyBtn
+
+    local SkipBtn = Instance.new("TextButton")
+    SkipBtn.Size = UDim2.new(0, 140, 0, 32)
+    SkipBtn.Position = UDim2.new(1, -150, 1, -42)
+    SkipBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+    SkipBtn.Text = "Skip"
+    SkipBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SkipBtn.Font = Enum.Font.GothamBold
+    SkipBtn.TextSize = 14
+    SkipBtn.Parent = Frame
+
+    local SkipCorner = Instance.new("UICorner")
+    SkipCorner.CornerRadius = UDim.new(0, 6)
+    SkipCorner.Parent = SkipBtn
+    CopyBtn.MouseButton1Click:Connect(function()
+        if setclipboard then
+            setclipboard(Discord)
+            CopyBtn.Text = "Copied!"
+            task.wait(1.2)
+            CopyBtn.Text = "Copy Discord"
+        else
+            CopyBtn.Text = "No clipboard"
+        end
+    end)
+
+    SkipBtn.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+
+
+    task.delay(5, function()
+        if ScreenGui and ScreenGui.Parent then
+            ScreenGui:Destroy()
+        end
+    end)
+end
+
+task.delay(0.8, function()
+    ShowDiscordNotification()
+end)
 local function N(t)
     pcall(function()
         game.StarterGui:SetCore("SendNotification",{Title="PP Loader",Text=t,Duration=5})
@@ -8,9 +105,6 @@ end
 task.delay(1,function()
     N("wait script loader | don't executor again.")
 end)
-
-local luoivl = game.PlaceId
-local saiduocallgameluon = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/universal.lua"
 
 local Scripts = {
     [102212685525266] = "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/shotbrainrot.lua",
