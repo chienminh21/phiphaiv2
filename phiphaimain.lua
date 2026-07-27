@@ -8,18 +8,15 @@ local function ShowDiscordNotification()
     ScreenGui.ResetOnSpawn = false
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     ScreenGui.Parent = game:GetService("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(0, 320, 0, 140)
     Frame.Position = UDim2.new(0.5, -160, 0, 20)
     Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
     Frame.BorderSizePixel = 0
     Frame.Parent = ScreenGui
-
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = Frame
-
     local Title = Instance.new("TextLabel")
     Title.Size = UDim2.new(1, -20, 0, 30)
     Title.Position = UDim2.new(0, 10, 0, 8)
@@ -30,7 +27,6 @@ local function ShowDiscordNotification()
     Title.TextSize = 16
     Title.TextXAlignment = Enum.TextXAlignment.Left
     Title.Parent = Frame
-
     local Content = Instance.new("TextLabel")
     Content.Size = UDim2.new(1, -20, 0, 40)
     Content.Position = UDim2.new(0, 10, 0, 40)
@@ -42,7 +38,6 @@ local function ShowDiscordNotification()
     Content.TextWrapped = true
     Content.TextXAlignment = Enum.TextXAlignment.Left
     Content.Parent = Frame
-
     local CopyBtn = Instance.new("TextButton")
     CopyBtn.Size = UDim2.new(0, 140, 0, 32)
     CopyBtn.Position = UDim2.new(0, 10, 1, -42)
@@ -52,11 +47,9 @@ local function ShowDiscordNotification()
     CopyBtn.Font = Enum.Font.GothamBold
     CopyBtn.TextSize = 14
     CopyBtn.Parent = Frame
-
     local CopyCorner = Instance.new("UICorner")
     CopyCorner.CornerRadius = UDim.new(0, 6)
     CopyCorner.Parent = CopyBtn
-
     local SkipBtn = Instance.new("TextButton")
     SkipBtn.Size = UDim2.new(0, 140, 0, 32)
     SkipBtn.Position = UDim2.new(1, -150, 1, -42)
@@ -66,7 +59,6 @@ local function ShowDiscordNotification()
     SkipBtn.Font = Enum.Font.GothamBold
     SkipBtn.TextSize = 14
     SkipBtn.Parent = Frame
-
     local SkipCorner = Instance.new("UICorner")
     SkipCorner.CornerRadius = UDim.new(0, 6)
     SkipCorner.Parent = SkipBtn
@@ -80,19 +72,15 @@ local function ShowDiscordNotification()
             CopyBtn.Text = "No clipboard"
         end
     end)
-
     SkipBtn.MouseButton1Click:Connect(function()
         ScreenGui:Destroy()
     end)
-
-
     task.delay(5, function()
         if ScreenGui and ScreenGui.Parent then
             ScreenGui:Destroy()
         end
     end)
 end
-
 task.delay(0.8, function()
     ShowDiscordNotification()
 end)
@@ -101,7 +89,6 @@ local function N(t)
         game.StarterGui:SetCore("SendNotification",{Title="PP Loader",Text=t,Duration=5})
     end)
 end
-
 task.delay(1,function()
     N("wait script loader | don't executor again.")
 end)
