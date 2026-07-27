@@ -46,7 +46,7 @@ local function ShowDiscordNotification()
     local CopyBtn = Instance.new("TextButton")
     CopyBtn.Size = UDim2.new(0, 140, 0, 32)
     CopyBtn.Position = UDim2.new(0, 10, 1, -42)
-    CopyBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- Discord color
+    CopyBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
     CopyBtn.Text = "Copy Discord"
     CopyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     CopyBtn.Font = Enum.Font.GothamBold
