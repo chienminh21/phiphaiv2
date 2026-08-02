@@ -31,7 +31,7 @@ local function ShowDiscordNotification()
     Content.Size = UDim2.new(1, -20, 0, 40)
     Content.Position = UDim2.new(0, 10, 0, 40)
     Content.BackgroundTransparency = 1
-    Content.Text = "Join Discord plzz<3\n" .. Discord
+    Content.Text = "Join Discord plzz<3.  can u join server to get free key access in ticket\n" .. Discord
     Content.TextColor3 = Color3.fromRGB(200, 200, 210)
     Content.Font = Enum.Font.Gotham
     Content.TextSize = 13
