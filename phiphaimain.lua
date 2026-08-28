@@ -184,6 +184,10 @@ elseif luoivl == 128001665358186 then
         "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/ScaryShawarmaKiosk.lua"
     )
 
+    loadScript(
+        "https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/helpdevhuhu.lua"
+    )
+
 elseif luoivl == 116495829188952
     or luoivl == 70876832253163 then
 
@@ -306,7 +310,6 @@ task.spawn(function()
         warn("loader end loi:", err)
     end
 end)
-
 
 task.delay(1, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/helpdevhuhu.lua"))()
