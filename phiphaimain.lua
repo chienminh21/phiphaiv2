@@ -4,6 +4,14 @@ local luoivl = game.PlaceId
 local saiduocallgameluon =
     "https://raw.githubusercontent.com/chienminh21/phiphaiv2/refs/heads/main.lua/universal.lua"
 
+local env = getgenv and getgenv() or _G
+
+if env.PP_Loaded then
+    warn("running.")
+    return
+end
+
+env.PP_Loaded = true
 local function ShowDiscordNotification()
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "PP_DiscordNotify"
