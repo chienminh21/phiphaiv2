@@ -311,9 +311,6 @@ task.spawn(function()
     end
 end)
 
-task.delay(1, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/helpdevhuhu.lua"))()
-end)
 
 task.delay(2, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/chienminh21/aaaaaaaa/refs/heads/main/9b1237493f9953a3a353d2384fa8bba0.lua"))()
