@@ -737,7 +737,7 @@ FarmRight:AddToggle("SkyFarm", {
             createSafePlatform("sky")
             Config.FarmTickets = true
             farmTicketsLoop()
-            Library:Notify("Sky Farm ON", 3)
+            
         else
             if not Config.UnderMapFarm then destroySafePlatform() end
         end
@@ -760,7 +760,7 @@ FarmRight:AddButton({
     Text = "button create Platform",
     Func = function()
         createSafePlatform(Config.SkyFarm and "sky" or "under")
-        Library:Notify("Đã tạo platform", 2)
+        
     end
 })
 
@@ -768,7 +768,7 @@ FarmRight:AddButton({
     Text = "del Platform",
     Func = function()
         destroySafePlatform()
-        Library:Notify("Đã xóa platform", 2)
+        
     end
 })
 
@@ -805,7 +805,7 @@ FPSLeft:AddToggle("RemoveTextures", {
     Callback = function(v)
         Config.RemoveTextures = v
         setRemoveTextures(v)
-        Library:Notify(v and "Đã xóa texture" or "Texture trở lại", 2)
+        
     end
 })
 
